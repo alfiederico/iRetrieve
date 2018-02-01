@@ -1,0 +1,156 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+    <div th:fragment="functions">
+
+        <script th:src="|http://maps.googleapis.com/maps/api/js?key=${appSettings.googleMapKey}|">
+        </script>
+
+
+        <script th:inline="text">
+            var geocoder;
+            var map = null;
+            var marker = null;
+            var sample = /*[[${place}]]*/ 'value';
+
+
+            // popup window for pin, if in use
+            var infowindow = new google.maps.InfoWindow({
+                size: new google.maps.Size(150, 50)
+            });
+
+
+
+            function getContactId() {
+                var address = document.getElementById("place").value;
+
+                if (address != "") {
+
+                    geocoder.geocode({'address': address}, function (results, status) {
+                        if (status == 'OK') {
+                            map.setCenter(results[0].geometry.location);
+                            if (marker) {
+                                marker.setMap(null);
+                                marker = null;
+                            }
+
+                            marker = new google.maps.Marker({
+                                map: map,
+                                position: results[0].geometry.location,
+                                icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png'
+                            });
+
+                            document.getElementById("location").value = results[0].geometry.location.lat() + "," + results[0].geometry.location.lng();
+
+                        } else {
+                            alert('Geocode was not successful for the following reason: ' + status);
+                        }
+                    });
+
+                }
+            }
+
+            function initialize() {
+
+                try {
+
+                    // the location of the initial pin
+                    //var myLatlng = new google.maps.LatLng(-37.814964,144.946045);
+
+                    var myLatlng = new google.maps.LatLng(14.8294310, 120.2767230);
+
+
+                    // create the map
+                    var myOptions = {
+                        zoom: 15,
+                        center: myLatlng,
+                        mapTypeControl: true,
+                        mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+                        navigationControl: true,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    }
+
+
+                    geocoder = new google.maps.Geocoder();
+                    map = new google.maps.Map(document.getElementById("googleMap"), myOptions);
+
+
+
+                    // establish the initial marker/pin
+                    var image = 'home.png';
+                    marker = new google.maps.Marker({
+                        position: myLatlng,
+                        map: map,
+                        icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png',
+                        title: "Property Location"
+                    });
+
+                    // establish the initial div form fields
+                    formlat = myLatlng.lat();
+                    formlng = myLatlng.lng();
+
+                    // close popup window
+                    google.maps.event.addListener(map, 'click', function () {
+                        infowindow.close();
+                    });
+
+                    // removing old markers/pins
+                    google.maps.event.addListener(map, 'click', function (event) {
+                        //call function to create marker
+                        if (marker) {
+                            marker.setMap(null);
+                            marker = null;
+                        }
+
+                        // Information for popup window if you so chose to have one
+                        /*
+                         marker = createMarker(event.latLng, "name", "<b>Location</b><br>"+event.latLng);
+                         */
+
+                        //var image = '/images/googlepins/pin2.png';
+                        var image = 'home.png';
+                        var myLatLng = event.latLng;
+                        /*  
+                         var marker = new google.maps.Marker({
+                         by removing the 'var' subsquent pin placement removes the old pin icon
+                         */
+                        marker = new google.maps.Marker({
+                            position: myLatLng,
+                            map: map,
+                            icon: 'http://maps.google.com/mapfiles/ms/icons/blue.png',
+                            title: "Property Location"
+                        });
+
+                        // populate the form fields with lat & lng 
+                        formlat = event.latLng.lat();
+                        formlng = event.latLng.lng();
+
+                        document.getElementById("location").value = event.latLng.lat() + "," + event.latLng.lng();
+
+                    });
+                } catch (err) {
+
+                }
+
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize);
+            /*]]>*/
+        </script>
+
+    </div>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

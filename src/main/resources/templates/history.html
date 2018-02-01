@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Admin Page</title>
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+            <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+                <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+                <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+                </head>
+
+                <body>
+                    <nav style = "background-color: #1B435D;" class="navbar navbar-light navbar-static-top"> 
+                        <div class="container">
+                            <div class="navbar-header">
+                                <a href="#" class ="navbar-brand">  <span th:utext="${userName}"></span> </a>
+                                <button type = "button" class="navbar-toggle" style = "background-color: #21273D;" data-toggle = "collapse" data-target = "#navHeaderCollapse">
+                                    <span style="background-color: #EAB4F8;" class="icon-bar"></span>
+                                    <span style="background-color: #EAB4F8;" class="icon-bar"></span>
+                                    <span style="background-color: #EAB4F8;" class="icon-bar"></span>
+                                </button>
+
+                            </div>
+                            <div class = "collapse navbar-collapse" id="navHeaderCollapse">
+                                <ul class = "nav navbar-nav navbar-right">
+                                    <li class = "active"><a th:href = "@{/report}" method="get">REPORT</a></li>
+                                    <li><a th:href="@{/settle}" method="get" >SETTLE</a></li>
+                                    <li>
+                                        <a th:href = "@{/History}" method="get"> HISTORY</a>
+                                    </li>
+                                    <li><a th:href = "@{/logout}" method = "get" >SETTING</a></li>
+                                    <li><a th:href = "@{/logout}" method = "get"  >LOG OUT</a></li>
+
+
+
+                                </ul>
+
+                            </div>
+                        </div>
+
+
+                    </nav>
+
+
+                    <div class="container">
+
+
+
+
+
+
+
+
+                        <div align = "center" id="form-table">
+                            <div class="heading">
+
+                            </div>
+
+                            <table>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>TYPE ID</th>
+                                    <th>TYPE</th>
+                                    <th>SUBJECT</th>
+
+                                    <th>DESCRIPTION</th>
+                                    <th>DATE</th>
+                                    <th>PLACE</th>
+                                    <th>LOCATION</th>
+                                    <th>SETTLE ID</th>
+                                </tr>
+                                <tr th:each="hist,iterationStatus  : ${history}">
+                                    <td th:text="${hist.id}"></td>
+                                    <td th:text="${hist.typeId}"></td>
+                                    <td th:text="${hist.type}"></td>
+                                    <td th:text="${hist.subject}"></td>
+
+                                    <td th:text="${hist.description}"></td>
+                                    <td th:text="${hist.date}"></td>
+                                    <td th:text="${hist.place}"></td>
+
+                                    <td th:text="${hist.location}"></td>
+                                    <td th:text="${hist.settleId}"></td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+
+
+                        <form th:action="@{/admin/home}" method="get">
+                            <button  class="btn btn-md btn-danger btn-block" name="registration"
+                                     type="Submit">Back</button>
+                        </form> 
+
+                    </div>
+                </body>
+                </html>

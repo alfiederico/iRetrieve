@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Admin Page</title>
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+            <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+                <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+                <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+                <div th:if="${report.hasLocation()}" 
+                     th:include="fragments/map :: functions" th:remove="tag">[Map Javascript]</div>
+                </head>
+
+                <body>
+                    <nav style = "background-color: #1B435D;" class="navbar navbar-light navbar-static-top"> 
+                        <div class="container">
+                            <div class="navbar-header">
+                                <a href="#" class ="navbar-brand">  <span th:utext="${userName}"></span> </a>
+                                <button type = "button" class="navbar-toggle" style = "background-color: #21273D;" data-toggle = "collapse" data-target = "#navHeaderCollapse">
+                                    <span style="background-color: #EAB4F8;" class="icon-bar"></span>
+                                    <span style="background-color: #EAB4F8;" class="icon-bar"></span>
+                                    <span style="background-color: #EAB4F8;" class="icon-bar"></span>
+                                </button>
+
+                            </div>
+                            <div class = "collapse navbar-collapse" id="navHeaderCollapse">
+                                <ul class = "nav navbar-nav navbar-right">
+                                    <li class = "active"><a th:href = "@{/report}" method="get">REPORT</a></li>
+                                    <li><a th:href="@{/settle}" method="get" >SETTLE</a></li>
+                                    <li>
+                                        <a th:href = "@{/history}" method="get"> HISTORY</a>
+                                    </li>
+                                    <li><a th:href = "@{/logout}" method = "get" >SETTING</a></li>
+                                    <li><a th:href = "@{/logout}" method = "get"  >LOG OUT</a></li>
+
+
+
+                                </ul>
+
+                            </div>
+                        </div>
+
+
+                    </nav>
+
+
+                    <div class="container">
+
+
+
+
+
+                        <div align = "center" id="form-table">
+                            <div class="heading">
+
+                            </div>
+
+                            <table class="table table-condensed">
+                                <h2 th:text="#{report.view.page.gridheading}">[Report Details]</h2>
+
+                                           <tr>
+                        <td class="td-label">
+                            <div th:text="#{report.label.id}">[TYPE ID]</div>
+                        </td>
+                        <td>
+                            <div th:text="${report.id}"></div>
+                        </td>
+                    </tr>
+                                
+                                <tr>
+                                    <td class="td-label">
+                                        <div th:text="#{report.label.type}">[Type]</div>
+                                    </td>
+                                    <td>
+                                        <div th:text="${report.type}"></div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="td-label">
+                                        <div th:text="#{report.label.subject}">[Subject]</div>
+                                    </td>
+                                    <td>
+                                        <div th:text="${report.subject}"></div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="td-label">
+                                        <div th:text="#{report.label.description}">[Description]</div>
+                                    </td>
+                                    <td>
+                                        <div th:text="${report.description}"></div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="td-label">
+                                        <div th:text="#{report.label.date}">[Date]</div>
+                                    </td>
+                                    <td>
+                                        <div th:text="${report.date}"></div>
+                                    </td>
+                                </tr>
+
+                                <tr th:if="${report.hasLocation()}" class="locationRow">
+                                    <td class="td-label">
+                                        <div th:text="#{report.label.location}">[Location]</div>
+                                        <br><br>
+                                                </td>
+                                                <td>
+
+                                                    <div id="googleMap" style="width: 800px; height: 400px;"></div>
+                                                </td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td class="td-label">
+                                                        <div th:text="#{report.label.isettle}">[Found]</div>
+                                                    </td>
+                                                    <td>
+
+                                                        <form th:action="@{/settle}" method="post">
+
+                                                            <input id="place" name="paramName" type="text" th:value="${report.isettle}" placeholder="Lost/Found ID"
+                                                                   class="form-control" />
+
+                                                            <button  class="btn btn-md btn-danger btn-block" name="registration"
+                                                                     type="Submit">Settle</button>
+                                                        </form>
+
+
+
+
+                                                    </td>
+                                                </tr>
+                                                </table>
+                                                </div>
+
+
+
+
+                                                <form th:action="@{/admin/home}" method="get">
+                                                    <button  class="btn btn-md btn-danger btn-block" name="registration"
+                                                             type="Submit">Back</button>
+                                                </form> 
+
+                                                </div>
+                                                </body>
+                                                </html>
