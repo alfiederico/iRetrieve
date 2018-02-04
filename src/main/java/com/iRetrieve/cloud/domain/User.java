@@ -31,98 +31,115 @@ import org.springframework.data.annotation.Transient;
 @Table(name = "user")
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "user_id")
-	private int userId;
-	@Column(name = "email")
-	@Email(message = "*Please provide a valid Email")
-	@NotEmpty(message = "*Please provide an email")
-	private String email;
-	@Column(name = "password")
-	@Length(min = 5, message = "*Your password must have at least 5 characters")
-	@NotEmpty(message = "*Please provide your password")
-	@Transient
-	private String password;
-	@Column(name = "name")
-	@NotEmpty(message = "*Please provide your name")
-	private String name;
-	@Column(name = "last_name")
-	@NotEmpty(message = "*Please provide your last name")
-	private String lastName;
-        
-        @Column(name = "phone")
-	@NotEmpty(message = "*Please provide your phone number")
-	private String phone;
-        
-	@Column(name = "active")
-	private int active;
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
+    private int userId;
+    @Column(name = "email")
+    @Email(message = "*Please provide a valid Email")
+    @NotEmpty(message = "*Please provide an email")
+    private String email;
+    @Column(name = "password")
+    @Length(min = 5, message = "*Your password must have at least 5 characters")
+    @NotEmpty(message = "*Please provide your password")
+    @Transient
+    private String password;
+    @Column(name = "name")
+    @NotEmpty(message = "*Please provide your name")
+    private String name;
+    @Column(name = "last_name")
+    @NotEmpty(message = "*Please provide your last name")
+    private String lastName;
 
-	public int getUserId() {
-		return userId;
-	}
+    @Column(name = "phone")
+    @NotEmpty(message = "*Please provide your phone number")
+    private String phone;
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+    @Column(name = "active")
+    private boolean active;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
-	public String getPassword() {
-		return password;
-	}
+    @Column(name = "radius")
+    private int radius;
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public int getUserId() {
+        return userId;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-        
-        public String getPhone() {
-		return phone;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public int getActive() {
-		return active;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public void setActive(int active) {
-		this.active = active;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public Set<Role> getRoles() {
-		return roles;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    /**
+     * @return the radius
+     */
+    public int getRadius() {
+        return radius;
+    }
+
+    /**
+     * @param radius the radius to set
+     */
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
 
 }

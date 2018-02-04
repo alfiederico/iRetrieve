@@ -66,6 +66,7 @@ public class SettingController {
             userExists.setLastName(user.getLastName());
             userExists.setPassword(user.getPassword());
             userExists.setPhone(user.getPhone());
+            userExists.setRadius(user.getRadius());
             userService.saveUser(userExists);
             return userExists;
         } else {
@@ -85,6 +86,7 @@ public class SettingController {
         userExists.setLastName(user.getLastName());
         userExists.setPassword(user.getPassword());
         userExists.setPhone(user.getPhone());
+        userExists.setRadius(user.getRadius());
 
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("registration");

@@ -6,14 +6,27 @@
 package com.iRetrieve.cloud.service;
 
 import com.iRetrieve.cloud.domain.User;
-
+import com.iRetrieve.cloud.domain.VerificationToken;
 
 /**
  *
  * @author Alfie
  */
 public interface UserService {
-	public User findUserByEmail(String email);
-        public User findUserByUserId(int user_id);
-	public void saveUser(User user);
+
+    public User findUserByEmail(String email);
+
+    public User findUserByUserId(int user_id);
+
+    public void saveUser(User user);
+
+    public void registerNewUserAccount(User user);
+
+    User getUser(String verificationToken);
+
+    void createVerificationToken(User user, String token);
+
+    VerificationToken getVerificationToken(String VerificationToken);
+
+    VerificationToken getVerificationToken(User user);
 }
