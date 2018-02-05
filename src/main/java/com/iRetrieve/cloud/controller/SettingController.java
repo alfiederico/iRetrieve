@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -64,7 +65,9 @@ public class SettingController {
         if (userExists != null) {
             userExists.setName(user.getName());
             userExists.setLastName(user.getLastName());
-            userExists.setPassword(user.getPassword());
+
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            userExists.setPassword(encoder.encode(user.getPassword()));
             userExists.setPhone(user.getPhone());
             userExists.setRadius(user.getRadius());
             userService.saveUser(userExists);
@@ -84,7 +87,10 @@ public class SettingController {
 
         userExists.setName(user.getName());
         userExists.setLastName(user.getLastName());
-        userExists.setPassword(user.getPassword());
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        userExists.setPassword(encoder.encode(user.getPassword()));
+
         userExists.setPhone(user.getPhone());
         userExists.setRadius(user.getRadius());
 

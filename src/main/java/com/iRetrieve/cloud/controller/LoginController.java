@@ -28,6 +28,7 @@ import com.iRetrieve.cloud.service.ReportService;
 import com.iRetrieve.cloud.service.UserService;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.mail.Session;
@@ -68,6 +69,9 @@ public class LoginController {
         User userExists = userService.findUserByEmail(username);
         if (userExists != null) {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            if (userExists.getActive() == false) {
+                return new Message(0, "activate");
+            }
             if (encoder.matches(password, userExists.getPassword())) {
                 return new Message(userExists.getUserId(), "success");
             } else {
@@ -76,6 +80,60 @@ public class LoginController {
         } else {
             return new Message(0, "fail");
         }
+
+    }
+
+    @RequestMapping(value = "/mobile/forgotpassword", method = RequestMethod.GET)
+    public @ResponseBody
+    Message sayPassword(@RequestParam(value = "email", required = true) String email) {
+        User userExists = userService.findUserByEmail(email);
+        if (userExists != null) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+            try {
+                String recipientAddress = userExists.getEmail();
+                String subject = "IRetrieve : Forgot Password";
+
+                javax.mail.Message message = new MimeMessage(emailSession);
+                message.setFrom(new InternetAddress("developer@alfiederico.com", "IRetrieve"));
+                message.setRecipients(javax.mail.Message.RecipientType.TO,
+                        InternetAddress.parse(recipientAddress));
+                message.setSubject(subject);
+
+                String randompassword = getSaltString();
+
+                String content = "Hi,\n" + userExists.getEmail() + "\n\nAre you trying to sign in?\nif so, use this code to finish signing in.\n" + randompassword + "\n\n\n";
+                content += "Best regards, \nalfred federico";
+                message.setText(content);
+
+                Transport.send(message);
+
+                userExists.setPassword(encoder.encode(randompassword));
+
+                userService.saveUser(userExists);
+
+                return new Message(0, "success");
+
+            } catch (Exception ex) {
+                return new Message(0, ex.getMessage());
+            }
+
+        } else {
+            return new Message(0, "fail");
+        }
+
+    }
+
+    protected String getSaltString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 8) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
 
     }
 
@@ -140,7 +198,7 @@ public class LoginController {
                         InternetAddress.parse(recipientAddress));
                 message.setSubject(subject);
 
-                String content = "To complete and confirm your registration for IRerrieve, you’ll need to verify your email address. To do so, please click the link below: " + "\n\n" + confirmationUrl + "\n\n\n";
+                String content = "To complete and confirm your registration for IRetrieve, you’ll need to verify your email address. To do so, please click the link below: " + "\n\n" + confirmationUrl + "\n\n\n";
                 content += "Best regards, \nalfred federico";
                 message.setText(content);
 
@@ -160,13 +218,65 @@ public class LoginController {
     public @ResponseBody
     User addNewUser(@RequestBody User user) {
         User userExists = userService.findUserByEmail(user.getEmail());
-        if (userExists != null) {
+
+        boolean bTokenExpired = false;
+
+        if (userExists != null && userExists.getActive() == true) {
             return null;
         } else {
-            userService.saveUser(user);
-            return user;
+
+            if (userExists != null) {
+                VerificationToken verificationToken = userService.getVerificationToken(userExists);
+                Calendar cal = Calendar.getInstance();
+                if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) > 0) {
+                    User userverify = new User();
+                    userverify.setName("Verify");
+                    userverify.setLastName("");
+                    return userverify;
+                } else {
+                    bTokenExpired = true;
+                }
+            }
+
         }
 
+        try {
+            String token = UUID.randomUUID().toString();
+            if (bTokenExpired == true) {
+                userExists.setName(user.getName());
+                userExists.setLastName(user.getLastName());
+                userExists.setEmail(user.getEmail());
+                userExists.setPassword(user.getPassword());
+                userService.saveUser(userExists);
+                userService.createVerificationToken(userExists, token);
+            } else {
+                userService.registerNewUserAccount(user);
+                userService.createVerificationToken(user, token);
+            }
+
+            String recipientAddress = user.getEmail();
+            String subject = "IRetrieve Registration: Email Confirmation";
+            String confirmationUrl = "http://localhost:8089" + "/registrationConfirm?token=" + token;
+
+            javax.mail.Message message = new MimeMessage(emailSession);
+            message.setFrom(new InternetAddress("developer@alfiederico.com", "IRetrieve"));
+            message.setRecipients(javax.mail.Message.RecipientType.TO,
+                    InternetAddress.parse(recipientAddress));
+            message.setSubject(subject);
+
+            String content = "To complete and confirm your registration for IRetrieve, you’ll need to verify your email address. To do so, please click the link below: " + "\n\n" + confirmationUrl + "\n\n\n";
+            content += "Best regards, \nalfred federico";
+            message.setText(content);
+
+            Transport.send(message);
+
+            return user;
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return null;
     }
 
     @RequestMapping(value = "/admin/home", method = RequestMethod.GET)
