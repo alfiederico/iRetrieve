@@ -13,10 +13,12 @@ public class Message {
 
     private final long id;
     private final String content;
+    private final int radius;
 
-    public Message(long id, String content) {
+    public Message(long id, String content, int radius) {
         this.id = id;
         this.content = content;
+        this.radius = radius;
     }
 
     public long getId() {
@@ -25,6 +27,10 @@ public class Message {
 
     public String getContent() {
         return content;
+    }
+
+    public int getRadius() {
+        return radius;
     }
 
 }

@@ -116,7 +116,7 @@ public class SettleController {
             Report reportB = reportService.findById(Integer.parseInt(isettle));
 
             if (report.getId() == reportB.getId()) {
-                return new Message(4, "settleid and reportid supplied cannot be the same.");
+                return new Message(4, "settleid and reportid supplied cannot be the same.",0);
             }
 
             report.setIsettle(Integer.parseInt(isettle));
@@ -172,12 +172,12 @@ public class SettleController {
             }
 
             if (bSettle == true) {
-                return new Message(1, "Report item already settle. Details go to History");
+                return new Message(1, "Report item already settle. Details go to History",0);
             } else {
-                return new Message(2, "Please wait for other party to settle");
+                return new Message(2, "Please wait for other party to settle",0);
             }
         } catch (Exception ex) {
-            return new Message(3, ex.getMessage());
+            return new Message(3, ex.getMessage(),0);
         }
 
     }

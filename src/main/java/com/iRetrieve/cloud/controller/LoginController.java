@@ -70,15 +70,15 @@ public class LoginController {
         if (userExists != null) {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             if (userExists.getActive() == false) {
-                return new Message(0, "activate");
+                return new Message(0, "activate",0);
             }
             if (encoder.matches(password, userExists.getPassword())) {
-                return new Message(userExists.getUserId(), "success");
+                return new Message(userExists.getUserId(), "success",userExists.getRadius());
             } else {
-                return new Message(0, "fail");
+                return new Message(0, "fail",0);
             }
         } else {
-            return new Message(0, "fail");
+            return new Message(0, "fail",0);
         }
 
     }
@@ -112,14 +112,14 @@ public class LoginController {
 
                 userService.saveUser(userExists);
 
-                return new Message(0, "success");
+                return new Message(0, "success",0);
 
             } catch (Exception ex) {
-                return new Message(0, ex.getMessage());
+                return new Message(0, ex.getMessage(),0);
             }
 
         } else {
-            return new Message(0, "fail");
+            return new Message(0, "fail",0);
         }
 
     }
