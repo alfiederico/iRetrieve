@@ -9,6 +9,7 @@ import com.iRetrieve.cloud.domain.History;
 import com.iRetrieve.cloud.domain.Report;
 import com.iRetrieve.cloud.domain.User;
 import com.iRetrieve.cloud.service.HistoryService;
+import com.iRetrieve.cloud.service.ReportService;
 import com.iRetrieve.cloud.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,9 @@ public class HistoryController {
     private UserService userService;
     @Autowired
     private HistoryService historyService;
+
+    @Autowired
+    private ReportService reportService;
 
     @RequestMapping(value = "/history", method = RequestMethod.GET)
     public ModelAndView settle(Model model) {
@@ -79,6 +83,45 @@ public class HistoryController {
             for (History e : arrHistory) {
                 if (e.getUserId() == Integer.parseInt(userid)) {
                     arrHistory2.add(e);
+                }
+            }
+        }
+
+        if (arrHistory2.size() < 1) {
+            return null;
+
+        } else {
+            return arrHistory2;
+        }
+
+    }
+
+    @RequestMapping(value = "/mobile/historystats", method = RequestMethod.GET)
+    public @ResponseBody
+    List<History> getHistoryID(@RequestParam(value = "id", required = true) String id) {
+
+        List<History> arrHistory = historyService.findAllByOrderByUserIdAsc();
+
+        List<History> arrHistory2 = new ArrayList<>();
+
+        List<Report> arrReport = reportService.findAllByOrderByUserIdAsc();
+
+        if (arrHistory != null) {
+            for (History e : arrHistory) {
+                if (e.getId() >= Integer.parseInt(id)) {
+                    arrHistory2.add(e);
+                }
+            }
+        }
+
+        if (arrReport != null) {
+            for (Report e : arrReport) {
+                if (e.getType().equals("LOST")) {
+                    History h = new History();
+                    h.setType("-LOST");
+                    h.setDate(e.getDate());
+
+                    arrHistory2.add(h);
                 }
             }
         }
