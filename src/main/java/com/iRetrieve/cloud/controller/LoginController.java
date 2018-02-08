@@ -61,6 +61,13 @@ public class LoginController {
         return modelAndView;
     }
 
+    @RequestMapping(value = {"/confirm"}, method = RequestMethod.GET)
+    public ModelAndView loginconfirm() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("confirm");
+        return modelAndView;
+    }
+
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping(value = "/mobile/login", method = RequestMethod.GET)
@@ -70,15 +77,15 @@ public class LoginController {
         if (userExists != null) {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             if (userExists.getActive() == false) {
-                return new Message(0, "activate",0);
+                return new Message(0, "activate", 0);
             }
             if (encoder.matches(password, userExists.getPassword())) {
-                return new Message(userExists.getUserId(), "success",userExists.getRadius());
+                return new Message(userExists.getUserId(), "success", userExists.getRadius());
             } else {
-                return new Message(0, "fail",0);
+                return new Message(0, "fail", 0);
             }
         } else {
-            return new Message(0, "fail",0);
+            return new Message(0, "fail", 0);
         }
 
     }
@@ -112,14 +119,14 @@ public class LoginController {
 
                 userService.saveUser(userExists);
 
-                return new Message(0, "success",0);
+                return new Message(0, "success", 0);
 
             } catch (Exception ex) {
-                return new Message(0, ex.getMessage(),0);
+                return new Message(0, ex.getMessage(), 0);
             }
 
         } else {
-            return new Message(0, "fail",0);
+            return new Message(0, "fail", 0);
         }
 
     }
@@ -190,7 +197,7 @@ public class LoginController {
 
                 String recipientAddress = user.getEmail();
                 String subject = "IRetrieve Registration: Email Confirmation";
-                String confirmationUrl = "http://localhost:8089" + "/registrationConfirm?token=" + token;
+                String confirmationUrl = "http://alfiederico.com/iRetrieve-0.0.1" + "/registrationConfirm?token=" + token;
 
                 javax.mail.Message message = new MimeMessage(emailSession);
                 message.setFrom(new InternetAddress("developer@alfiederico.com", "IRetrieve"));
@@ -256,7 +263,7 @@ public class LoginController {
 
             String recipientAddress = user.getEmail();
             String subject = "IRetrieve Registration: Email Confirmation";
-            String confirmationUrl = "http://localhost:8089" + "/registrationConfirm?token=" + token;
+            String confirmationUrl = "http://alfiederico.com/iRetrieve-0.0.1" + "/registrationConfirm?token=" + token;
 
             javax.mail.Message message = new MimeMessage(emailSession);
             message.setFrom(new InternetAddress("developer@alfiederico.com", "IRetrieve"));
@@ -310,13 +317,13 @@ public class LoginController {
             return "redirect:/badUser.html";
         }
         if (user.getActive() == true) {
-            return "redirect:/login";
+            return "redirect:/confirm";
         } else {
             user.setActive(true);
             userService.saveUser(user);
         }
 
-        return "redirect:/login";
+        return "redirect:/confirm";
     }
 
 }
