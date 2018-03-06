@@ -54,8 +54,8 @@ public class ReportController {
     Report addNewReport(@RequestBody Report report) {
 
         Report reportOld = reportService.findByUserId(report.getUserId());
-
-        if (reportOld == null) {
+        try{
+            if (reportOld == null) {
             java.text.SimpleDateFormat sdf
                     = new java.text.SimpleDateFormat("dd-mm-yyyy HH:mm:ss");
 
@@ -75,6 +75,12 @@ public class ReportController {
         } else {
             return null;
         }
+        }catch(Exception ex){
+            String exx = ex.getMessage();
+            System.out.println(ex.getMessage());
+            return null;
+        }
+        
 
     }
 

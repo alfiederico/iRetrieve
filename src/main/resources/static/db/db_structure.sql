@@ -98,6 +98,7 @@ CREATE TABLE `reports` (
   `place` varchar(45) DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
   `contact` varchar(45) DEFAULT NULL,
+ `photo` longtext,
   PRIMARY KEY (`id`,`user_id`),
   KEY `user_id_idx` (`user_id`),
   CONSTRAINT `FK_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION

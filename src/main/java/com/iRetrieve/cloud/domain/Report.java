@@ -9,6 +9,7 @@ package com.iRetrieve.cloud.domain;
  *
  * @author Alfie
  */
+import java.awt.Image;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -20,6 +21,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
@@ -87,6 +89,10 @@ public class Report {
     @Column(name = "contact")
     @NotEmpty(message = "*Please provide contact details")
     private String contact;
+    
+    @Lob
+    @Column(name = "photo")
+    private String photo;
     
     public String getContact() {
         return contact;
@@ -226,6 +232,20 @@ public class Report {
      */
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    /**
+     * @return the photo
+     */
+    public String getPhoto() {
+        return photo;
+    }
+
+    /**
+     * @param photo the photo to set
+     */
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
 }
