@@ -20,6 +20,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
@@ -71,6 +72,10 @@ public class History {
     @Column(name = "place")
     @NotEmpty(message = "*Please provide the place it was lost")
     private String place;
+    
+    @Lob
+    @Column(name = "photo")
+    private String photo;
 
     private Point point;
 
@@ -188,6 +193,20 @@ public class History {
      */
     public void setSettleId(int settleId) {
         this.settleId = settleId;
+    }
+
+    /**
+     * @return the photo
+     */
+    public String getPhoto() {
+        return photo;
+    }
+
+    /**
+     * @param photo the photo to set
+     */
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
 }

@@ -60,6 +60,13 @@ public class LoginController {
         modelAndView.setViewName("login");
         return modelAndView;
     }
+    
+    @RequestMapping(value = {"/access-denied"}, method = RequestMethod.GET)
+    public ModelAndView denied() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("denied");
+        return modelAndView;
+    }
 
     @RequestMapping(value = {"/confirm"}, method = RequestMethod.GET)
     public ModelAndView loginconfirm() {
