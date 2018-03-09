@@ -60,10 +60,11 @@
 
                             </div>
 
-                            <table>
+                            <table class="table">
+                                <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>TYPE ID</th>
+                    
                                     <th>TYPE</th>
                                     <th>SUBJECT</th>
 
@@ -71,11 +72,13 @@
                                     <th>DATE</th>
                                     <th>PLACE</th>
                                     <th>LOCATION</th>
-                                    <th>SETTLE ID</th>
+                                    <th>REFERENCE ID</th>
                                 </tr>
+                                </thead>
+                                <tbody>
                                 <tr th:each="hist,iterationStatus  : ${history}">
                                     <td th:text="${hist.id}"></td>
-                                    <td th:text="${hist.typeId}"></td>
+                          
                                     <td th:text="${hist.type}"></td>
                                     <td th:text="${hist.subject}"></td>
 
@@ -86,6 +89,7 @@
                                     <td th:text="${hist.location}"></td>
                                     <td th:text="${hist.settleId}"></td>
                                 </tr>
+                                </tbody>
                             </table>
                         </div>
 

@@ -62,15 +62,15 @@
                             <table class="table table-condensed">
                                 <h2 th:text="#{report.view.page.gridheading}">[Report Details]</h2>
 
-                                           <tr>
-                        <td class="td-label">
-                            <div th:text="#{report.label.id}">[TYPE ID]</div>
-                        </td>
-                        <td>
-                            <div th:text="${report.id}"></div>
-                        </td>
-                    </tr>
-                                
+                                <tr>
+                                    <td class="td-label">
+                                        <div th:text="#{report.label.id}">[TYPE ID]</div>
+                                    </td>
+                                    <td>
+                                        <div th:text="${report.id}"></div>
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <td class="td-label">
                                         <div th:text="#{report.label.type}">[Type]</div>
@@ -110,11 +110,11 @@
                                 <tr th:if="${report.hasLocation()}" class="locationRow">
                                     <td class="td-label">
                                         <div th:text="#{report.label.location}">[Location]</div>
-                                        <br><br>
+                                   
                                                 </td>
                                                 <td>
 
-                                                    <div id="googleMap" style="width: 800px; height: 400px;"></div>
+                                                    <div id="googleMap" style=" height: 400px;"></div>
                                                 </td>
                                                 </tr>
 
@@ -130,13 +130,21 @@
                                                             <input id="place" name="paramName" type="text" th:value="${report.isettle}" placeholder="Lost/Found ID"
                                                                    class="form-control" />
 
-                                                            <button  class="btn btn-md btn-danger btn-block" name="registration"
+                                                            <button  style= "margin-top:5px;" class="btn btn-md btn-primary btn-block" name="registration"
                                                                      type="Submit">Settle</button>
                                                         </form>
 
 
-
-
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                    </td>
+                                                    <td>
+                                                        <form th:action="@{/admin/home}" method="get">
+                                                            <button  class="btn btn-md btn-danger btn-block" name="registration"
+                                                                     type="Submit">Back</button>
+                                                        </form> 
                                                     </td>
                                                 </tr>
                                                 </table>
@@ -145,10 +153,7 @@
 
 
 
-                                                <form th:action="@{/admin/home}" method="get">
-                                                    <button  class="btn btn-md btn-danger btn-block" name="registration"
-                                                             type="Submit">Back</button>
-                                                </form> 
+
 
                                                 </div>
                                                 </body>

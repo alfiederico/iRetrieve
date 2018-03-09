@@ -55,6 +55,7 @@ public class Report {
     private String subject;
 
     @Column(name = "description")
+    @NotEmpty(message = "*Please provide some description")
     private String description;
 
     @Column(name = "date")

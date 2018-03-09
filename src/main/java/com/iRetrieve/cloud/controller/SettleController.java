@@ -116,7 +116,7 @@ public class SettleController {
             Report reportB = reportService.findById(Integer.parseInt(isettle));
 
             if (report.getId() == reportB.getId()) {
-                return new Message(4, "settleid and reportid supplied cannot be the same.",0);
+                return new Message(4, "settleid and reportid supplied cannot be the same.", 0);
             }
 
             report.setIsettle(Integer.parseInt(isettle));
@@ -127,6 +127,79 @@ public class SettleController {
 
                 if (report.getIsettle() == reportB.getId() && report.getUsettle() == reportB.getId()) {
                     if (reportB.getIsettle() == report.getId() && reportB.getUsettle() == report.getId()) {
+                        if (!report.getType().toUpperCase().equals(reportB.getType().toUpperCase())) {
+                            bSettle = true;
+                            report.setStatus("Done");
+                            reportB.setStatus("Done");
+
+                            History a = new History();
+                            a.setTypeId(report.getId());
+                            a.setUserId(report.getUserId());
+                            a.setType(report.getType());
+                            a.setSubject(report.getSubject());
+                            a.setDescription(report.getDescription());
+                            a.setDate(report.getDate());
+                            a.setLocation(report.getLocation());
+                            a.setSettleId(report.getIsettle());
+                            a.setPlace(report.getPlace());
+
+                            historyService.saveHistory(a);
+
+                            History b = new History();
+                            b.setTypeId(reportB.getId());
+                            b.setUserId(reportB.getUserId());
+                            b.setType(reportB.getType());
+                            b.setSubject(reportB.getSubject());
+                            b.setDescription(reportB.getDescription());
+                            b.setDate(reportB.getDate());
+                            b.setLocation(reportB.getLocation());
+                            b.setSettleId(reportB.getIsettle());
+                            b.setPlace(reportB.getPlace());
+
+                            historyService.saveHistory(b);
+
+                            reportService.deleteReport(report);
+                            reportService.deleteReport(reportB);
+                        }
+
+                    }
+                }
+                if (bSettle == false) {
+                    reportService.saveReport(reportB);
+                }
+
+            }
+            if (bSettle == false) {
+                reportService.saveReport(report);
+            }
+
+            if (bSettle == true) {
+                return new Message(1, "Report item already settle. Details go to History", 0);
+            } else {
+                return new Message(2, "Please wait for other party to settle", 0);
+            }
+        } catch (Exception ex) {
+            return new Message(3, ex.getMessage(), 0);
+        }
+
+    }
+
+    @RequestMapping(value = {"/settle"}, method = RequestMethod.POST)
+    public ModelAndView updateSettle(ModelAndView modelAndView, @RequestParam("paramName") String id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        Report report = reportService.findByUserId(user.getUserId());
+        Report reportB = reportService.findById(Integer.parseInt(id));
+        report.setIsettle(Integer.parseInt(id));
+
+        boolean bSettle = false;
+        if (reportB != null) {
+            reportB.setUsettle(report.getId());
+
+            if (report.getIsettle() == reportB.getId() && report.getUsettle() == reportB.getId()) {
+                if (reportB.getIsettle() == report.getId() && reportB.getUsettle() == report.getId()) {
+
+                    if (!report.getType().toUpperCase().equals(reportB.getType().toUpperCase())) {
                         bSettle = true;
                         report.setStatus("Done");
                         reportB.setStatus("Done");
@@ -159,75 +232,7 @@ public class SettleController {
 
                         reportService.deleteReport(report);
                         reportService.deleteReport(reportB);
-
                     }
-                }
-                if (bSettle == false) {
-                    reportService.saveReport(reportB);
-                }
-
-            }
-            if (bSettle == false) {
-                reportService.saveReport(report);
-            }
-
-            if (bSettle == true) {
-                return new Message(1, "Report item already settle. Details go to History",0);
-            } else {
-                return new Message(2, "Please wait for other party to settle",0);
-            }
-        } catch (Exception ex) {
-            return new Message(3, ex.getMessage(),0);
-        }
-
-    }
-
-    @RequestMapping(value = {"/settle"}, method = RequestMethod.POST)
-    public ModelAndView updateSettle(ModelAndView modelAndView, @RequestParam("paramName") String id) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        Report report = reportService.findByUserId(user.getUserId());
-        Report reportB = reportService.findById(Integer.parseInt(id));
-        report.setIsettle(Integer.parseInt(id));
-
-        boolean bSettle = false;
-        if (reportB != null) {
-            reportB.setUsettle(report.getId());
-
-            if (report.getIsettle() == reportB.getId() && report.getUsettle() == reportB.getId()) {
-                if (reportB.getIsettle() == report.getId() && reportB.getUsettle() == report.getId()) {
-                    bSettle = true;
-                    report.setStatus("Done");
-                    reportB.setStatus("Done");
-
-                    History a = new History();
-                    a.setTypeId(report.getId());
-                    a.setUserId(report.getUserId());
-                    a.setType(report.getType());
-                    a.setSubject(report.getSubject());
-                    a.setDescription(report.getDescription());
-                    a.setDate(report.getDate());
-                    a.setLocation(report.getLocation());
-                    a.setSettleId(report.getIsettle());
-                    a.setPlace(report.getPlace());
-
-                    historyService.saveHistory(a);
-
-                    History b = new History();
-                    b.setTypeId(reportB.getId());
-                    b.setUserId(reportB.getUserId());
-                    b.setType(reportB.getType());
-                    b.setSubject(reportB.getSubject());
-                    b.setDescription(reportB.getDescription());
-                    b.setDate(reportB.getDate());
-                    b.setLocation(reportB.getLocation());
-                    b.setSettleId(reportB.getIsettle());
-                    b.setPlace(reportB.getPlace());
-
-                    historyService.saveHistory(b);
-
-                    reportService.deleteReport(report);
-                    reportService.deleteReport(reportB);
 
                 }
             }

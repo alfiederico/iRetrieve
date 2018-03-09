@@ -10,6 +10,37 @@
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
                 </head>
                 <body>
+                    
+                     <nav style = "background-color: #1B435D;" class="navbar navbar-light navbar-static-top"> 
+                        <div class="container">
+                            <div class="navbar-header">
+                                <a href="#" class ="navbar-brand">  <span th:utext="${userName}"></span> </a>
+                                <button type = "button" class="navbar-toggle" style = "background-color: #21273D;" data-toggle = "collapse" data-target = "#navHeaderCollapse">
+                                    <span style="background-color: #EAB4F8;" class="icon-bar"></span>
+                                    <span style="background-color: #EAB4F8;" class="icon-bar"></span>
+                                    <span style="background-color: #EAB4F8;" class="icon-bar"></span>
+                                </button>
+
+                            </div>
+                            <div class = "collapse navbar-collapse" id="navHeaderCollapse">
+                                <ul class = "nav navbar-nav navbar-right">
+                                    <li class = "active"><a th:href = "@{/report}" method="get">REPORT</a></li>
+                                    <li><a th:href="@{/settle}" method="get" >SETTLE</a></li>
+                                    <li>
+                                        <a th:href = "@{/history}" method="get"> HISTORY</a>
+                                    </li>
+                                    <li><a th:href = "@{/logout}" method = "get" >SETTING</a></li>
+                                    <li><a th:href = "@{/logout}" method = "get"  >LOG OUT</a></li>
+
+
+
+                                </ul>
+
+                            </div>
+                        </div>
+
+
+                    </nav>
 
 
                     <div  class="container">
@@ -65,7 +96,7 @@
 
                                     <div class="form-group">
                                         <div class="col-sm-8 col-md-offset-2">
-                                            <input type="number" th:field="*{radius}" placeholder="radius in kilometer"
+                                            <input type="number" th:field="*{radius}" placeholder="Report Radius in Kilometer"
                                                    class="form-control"/>
                                          
                                         </div>
@@ -74,7 +105,7 @@
 
                                     <div class="form-group">
                                         <div class="col-sm-8 col-md-offset-2">
-                                            <button type="submit" class="btn btn-primary btn-block">Update Details</button>
+                                            <button type="submit" class="btn btn-primary btn-block">Update</button>
                                         </div>
                                     </div>
 
@@ -85,10 +116,23 @@
 
                                 </form>
 
-                                <form th:action="@{/admin/home}" method="get">
-                                    <button  class="btn btn-md btn-danger btn-block" name="registration"
-                                             type="Submit">Back</button>
-                                </form> 
+                <div align="center">
+                                    <div align = "center" class="row">
+                                        <div class="col-md-8 col-md-offset-2">
+
+                                            <form th:action="@{/admin/home}" method="get" class="form-horizontal">
+                                                <div class="form-group">
+
+                                                    <div class="col-sm-12">
+                                                        <button  class="btn btn-md btn-danger btn-block" name="registration"
+                                                                 type="Submit">Back</button>
+                                                    </div>
+
+                                                </div>
+                                            </form> 
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
