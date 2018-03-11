@@ -24,9 +24,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.iRetrieve.cloud.domain.User;
 import com.iRetrieve.cloud.domain.VerificationToken;
+import com.iRetrieve.cloud.service.HistoryService;
 import com.iRetrieve.cloud.service.ReportService;
 import com.iRetrieve.cloud.service.UserService;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.UUID;
@@ -50,6 +52,12 @@ public class LoginController {
     private UserService userService;
 
     @Autowired
+    private ReportService reportService;
+    
+        @Autowired
+    private HistoryService historyService;
+
+    @Autowired
     private Session emailSession;
     @Autowired
     private MessageSource messages;
@@ -60,7 +68,14 @@ public class LoginController {
         modelAndView.setViewName("login");
         return modelAndView;
     }
-    
+
+    @RequestMapping(value = "/mobile/users", method = RequestMethod.GET)
+    public @ResponseBody
+    List<User> getPerson() {
+        return userService.findAllByOrderByUserIdAsc();
+        //return personService.getAllPerson();
+    }
+
     @RequestMapping(value = {"/access-denied"}, method = RequestMethod.GET)
     public ModelAndView denied() {
         ModelAndView modelAndView = new ModelAndView();
@@ -295,13 +310,19 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/admin/home", method = RequestMethod.GET)
-    public ModelAndView home() {
+    public ModelAndView home(Model model) {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
         modelAndView.addObject("adminMessage", "Instructions goes here");
         modelAndView.setViewName("admin/home");
+        model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
+        model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
+        model.addAttribute("histories",  historyService.findAllByOrderByUserIdAsc());
+        
+        
+
         return modelAndView;
     }
 

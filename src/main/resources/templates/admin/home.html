@@ -53,40 +53,10 @@
                     </nav>
 
 
-                    <!---      <div class="container">
-                  
-                              <form th:action="@{/report}" method="get">
-                                  <button class="btn btn-md btn-danger btn-block" name="registration"
-                                          type="Submit">Report</button>
-                              </form> 
-                              
-                        
-                  
-                              <form th:action="@{/settle}" method="get">
-                                  <button class="btn btn-md btn-danger btn-block" name="registration"
-                                          type="Submit">Settle</button>
-                              </form> 
-                  
-                              <form th:action="@{/logout}" method="get">
-                                  <button class="btn btn-md btn-danger btn-block" name="registration"
-                                          type="Submit">History</button>
-                              </form> 
-                              <form th:action="@{/logout}" method="get">
-                                  <button class="btn btn-md btn-danger btn-block" name="registration"
-                                          type="Submit">Settings</button>
-                              </form> 
-                  
-                              <form th:action="@{/logout}" method="get">
-                                  <button class="btn btn-md btn-danger btn-block" name="registration"
-                                          type="Submit">Logout</button>
-                              </form> 
-                    
-                              --->
-
                     <div class="panel-group" style="margin-top:40px">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                <span>ADMINISTRATOR</span>
+                                <span th:utext="'ADMINISTRATOR - ' + ${adminMessage}"></span>
                             </div>
                             <div class="panel-body">
                                 <div class="wrapper center-block">
@@ -101,7 +71,40 @@
                                             </div>
                                             <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                                                 <div class="panel-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                                    <div align = "center" id="form-table">
+                                                        <div class="heading">
+
+                                                        </div>
+
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ID</th>
+
+                                                                    <th>EMAIL</th>
+                                                                    <th>NAME</th>
+
+                                                                    <th>LAST NAME</th>
+                                                                    <th>PHONE</th>
+                                                                    <th>ACTIVE</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr th:each="user,iterationStatus  : ${users}">
+                                                                    <td th:text="${user.userId}"></td>
+
+                                                                    <td th:text="${user.email}"></td>
+                                                                    <td th:text="${user.name}"></td>
+
+                                                                    <td th:text="${user.lastName}"></td>
+                                                                    <td th:text="${user.phone}"></td>
+                                                                    <td th:text="${user.active}"></td>
+
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -115,7 +118,42 @@
                                             </div>
                                             <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                                                 <div class="panel-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                                    <div align = "center" id="form-table">
+                                                        <div class="heading">
+
+                                                        </div>
+
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ID</th>
+
+                                                                    <th>TYPE</th>
+                                                                    <th>SUBJECT</th>
+
+                                                                    <th>DESCRIPTION</th>
+                                                                    <th>DATE</th>
+                                                                    <th>PLACE</th>
+                                                                    <th>CONTACT</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr th:each="report,iterationStatus  : ${reports}">
+                                                                    <td th:text="${report.id}"></td>
+
+                                                                    <td th:text="${report.type}"></td>
+                                                                    <td th:text="${report.subject}"></td>
+
+                                                                    <td th:text="${report.description}"></td>
+                                                                    <td th:text="${report.date}"></td>
+                                                                    <td th:text="${report.place}"></td>
+                                                                    <td th:text="${report.contact}"></td>
+
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -129,14 +167,49 @@
                                             </div>
                                             <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                                                 <div class="panel-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                                    <div align = "center" id="form-table">
+                                                        <div class="heading">
+
+                                                        </div>
+
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ID</th>
+
+                                                                    <th>TYPE</th>
+                                                                    <th>SUBJECT</th>
+
+                                                                    <th>DESCRIPTION</th>
+                                                                    <th>DATE</th>
+                                                                    <th>PLACE</th>
+                                                                    <th>REFERENCE ID</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr th:each="history,iterationStatus  : ${histories}">
+                                                                    <td th:text="${history.id}"></td>
+
+                                                                    <td th:text="${history.type}"></td>
+                                                                    <td th:text="${history.subject}"></td>
+
+                                                                    <td th:text="${history.description}"></td>
+                                                                    <td th:text="${history.date}"></td>
+                                                                    <td th:text="${history.place}"></td>
+                                                                    <td th:text="${history.settleId}"></td>
+
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                       
+
                         </div>
                     </div>
 

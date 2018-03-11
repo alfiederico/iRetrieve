@@ -13,9 +13,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.iRetrieve.cloud.domain.User;
+import java.util.List;
 
 @Repository("userRepository")
 public interface UserRepository extends JpaRepository<User, Long> {
-	 User findByEmail(String email);
-         User findByUserId(int user_id);
+
+    User findByEmail(String email);
+
+    User findByUserId(int user_id);
+
+    List<User> findAllByOrderByUserIdAsc();
 }

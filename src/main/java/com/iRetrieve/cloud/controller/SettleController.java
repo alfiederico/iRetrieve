@@ -54,6 +54,9 @@ public class SettleController {
         if (report == null) {
             modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
             modelAndView.addObject("adminMessage", "Report item not found. Report item first.");
+            model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
+            model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
+            model.addAttribute("histories",  historyService.findAllByOrderByUserIdAsc());
             modelAndView.setViewName("/admin/home");
 
         } else {
@@ -117,6 +120,9 @@ public class SettleController {
 
             if (report.getId() == reportB.getId()) {
                 return new Message(4, "settleid and reportid supplied cannot be the same.", 0);
+            }
+            if (Integer.parseInt(isettle) < 1) {
+                return new Message(5, "Lost/Found ID cannot be 0", 0);
             }
 
             report.setIsettle(Integer.parseInt(isettle));

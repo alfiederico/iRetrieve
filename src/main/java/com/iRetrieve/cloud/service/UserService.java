@@ -7,6 +7,7 @@ package com.iRetrieve.cloud.service;
 
 import com.iRetrieve.cloud.domain.User;
 import com.iRetrieve.cloud.domain.VerificationToken;
+import java.util.List;
 
 /**
  *
@@ -29,4 +30,6 @@ public interface UserService {
     VerificationToken getVerificationToken(String VerificationToken);
 
     VerificationToken getVerificationToken(User user);
+    
+    List<User> findAllByOrderByUserIdAsc();
 }

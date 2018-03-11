@@ -116,7 +116,7 @@ public class ReportController {
 
             if (reportOld == null) {
                 java.text.SimpleDateFormat sdf
-                        = new java.text.SimpleDateFormat("dd-mm-dd HH:mm:ss");
+                        = new java.text.SimpleDateFormat("dd-mm-yyyy HH:mm:ss");
 
                 try {
                     report.setDate(sdf.format(sdf.parse(report.getDate())));
@@ -129,9 +129,8 @@ public class ReportController {
                 report.setIsettle(0);
                 report.setUsettle(0);
                 reportService.saveReport(report);
-                modelAndView.addObject("successMessage", "Report has been created successfully");
-                modelAndView.addObject("report", new Report());
-                modelAndView.setViewName("report");
+                modelAndView.addObject("adminMessage", "Report has been created successfully");
+                modelAndView.setViewName("/admin/home");
             } else {
                 modelAndView.addObject("successMessage", "Please settle previous report before add new one");
                 modelAndView.addObject("report", new Report());

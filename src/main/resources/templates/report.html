@@ -45,160 +45,158 @@
                     </nav>
 
                     <div class="container">
-                    <div align="center" >
-                        <div align = "center" class="row">
-                            <div class="col-md-9 col-md-offset-3">
-                                <form autocomplete="off" action="#" th:action="@{/report}"
-                                      th:object="${report}" method="post" class="form-horizontal"
-                                      role="form">
-                                    <h2><b>Report Form</b></h2>
-                                    <div class="form-group">
-                                        <div class="col-sm-10 col-md-offset-1">
-                                            <label th:if="${#fields.hasErrors('type')}" th:errors="*{type}"
-                                                   class="validation-message"></label>
-                                            <select th:field="*{type}" placeholder="type"
-                                                    class="form-control" /> 
-                                            <option value ="LOST">LOST</option>
-                                            <option value ="FOUND">FOUND</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-10 col-md-offset-1">
-                                            <label th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"
-                                                   class="validation-message"></label>
-                                            <select th:field="*{subject}" placeholder="subject"
-                                                    class="form-control" /> 
-                                            <option value ="LOST">DEVICE</option>
-                                            <option value ="FOUND">ID</option>
-                                            <option value ="LOST">KEY</option>
-                                            <option value ="FOUND">MONEY</option>
-                                            <option value ="LOST">PET</option>
-                                            <option value ="FOUND">WALLET</option>
-                                            <option value ="LOST">OTHERS</option>
-
-                                            </select>
-                                        </div>
-                                    </div>
-
-
-
-
-                                    <div class="form-group">
-                                        <div class="col-sm-10 col-md-offset-1">
-                                            <label th:if="${#fields.hasErrors('description')}" th:errors="*{decription}"
-                                                   class="validation-message"></label>
-                                            <input type="text" th:field="*{description}" placeholder="DESCRIPTION"
-                                                   class="form-control" /> 
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-10 col-md-offset-1">
-                                            <label th:if="${#fields.hasErrors('date')}" th:errors="*{date}"
-                                                   class="validation-message"></label>
-                                            <input type="date" th:field="*{date}" placeholder="DATE"
-                                                   class="form-control" /> 
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-10 col-md-offset-1">
-                                            <label th:if="${#fields.hasErrors('contact')}" th:errors="*{contact}"
-                                                   class="validation-message"></label>
-                                            <input type="text" th:field="*{contact}" placeholder="CONTACT"
-                                                   class="form-control" /> 
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="col-sm-7 col-md-offset-1">
-              
-                                            <input id="place" type="text" th:field="*{place}" placeholder="PLACE"
-                                                   class="form-control" /> 
-                                            
-                                                                          <label th:if="${#fields.hasErrors('place')}" th:errors="*{place}"
-                                                   class="validation-message"></label>
+                        <div align="center" >
+                            <div align = "center" class="row">
+                                <div class="col-md-9 col-md-offset-3">
+                                    <form autocomplete="off" action="#" th:action="@{/report}"
+                                          th:object="${report}" method="post" class="form-horizontal"
+                                          role="form">
+                                        <span th:utext="${successMessage}"></span>
+                                        <h2><b>Report Form</b></h2>
+                                        <div class="form-group">
+                                            <div class="col-sm-10 col-md-offset-1">
+                                                <label th:if="${#fields.hasErrors('type')}" th:errors="*{type}"
+                                                       class="validation-message"></label>
+                                                <select th:field="*{type}" placeholder="type"
+                                                        class="form-control" /> 
+                                                <option value ="LOST">LOST</option>
+                                                <option value ="FOUND">FOUND</option>
+                                                </select>
+                                            </div>
                                         </div>
 
-                                        <div class="col-sm-4">             
-                                            <button type="button" class="btn btn-primary text-center" th:onclick="'javascript:getContactId();'">
-                                                Search
-                                            </button>
+                                        <div class="form-group">
+                                            <div class="col-sm-10 col-md-offset-1">
+                                                <label th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"
+                                                       class="validation-message"></label>
+                                                <select th:field="*{subject}" placeholder="subject"
+                                                        class="form-control" /> 
+                                                <option value ="DEVICE">DEVICE</option>
+                                                <option value ="ID">ID</option>
+                                                <option value ="KEY">KEY</option>
+                                                <option value ="MONEY">MONEY</option>
+                                                <option value ="PET">PET</option>
+                                                <option value ="WALLET">WALLET</option>
+                                                <option value ="OTHERS">OTHERS</option>
+
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
 
 
-                                    <div class="form-group">
-                                        <div class="col-sm-10 col-md-offset-1">
-                                            <div  id="googleMap" align="center" style="height: 380px;" ></div>
+
+
+                                        <div class="form-group">
+                                            <div class="col-sm-10 col-md-offset-1">
+                                                <label th:if="${#fields.hasErrors('description')}" th:errors="*{decription}"
+                                                       class="validation-message"></label>
+                                                <input type="text" th:field="*{description}" placeholder="DESCRIPTION"
+                                                       class="form-control" /> 
+                                            </div>
                                         </div>
-                                    </div>
 
-
-
-                                    <div class="form-group">
-                                        <div class="col-sm-10 col-md-offset-1">
-                                            <label th:if="${#fields.hasErrors('location')}" th:errors="*{location}"
-                                                   class="validation-message"></label>
-                                            <input type="text" th:field="*{location}" placeholder="location"
-                                                   class="form-control" readonly  /> 
+                                        <div class="form-group">
+                                            <div class="col-sm-10 col-md-offset-1">
+                                                <label th:if="${#fields.hasErrors('date')}" th:errors="*{date}"
+                                                       class="validation-message"></label>
+                                                <input type="date" th:field="*{date}" placeholder="DATE"
+                                                       class="form-control" /> 
+                                            </div>
                                         </div>
-                                    </div>
 
-
-
-
-                                    <div class="form-group">
-
-                                        <div class="col-sm-10 col-md-offset-1">
-                                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                        <div class="form-group">
+                                            <div class="col-sm-10 col-md-offset-1">
+                                                <label th:if="${#fields.hasErrors('contact')}" th:errors="*{contact}"
+                                                       class="validation-message"></label>
+                                                <input type="text" th:field="*{contact}" placeholder="CONTACT"
+                                                       class="form-control" /> 
+                                            </div>
                                         </div>
-                                    </div>
-                                    
-                                    
+
+                                        <div class="form-group">
+                                            <div class="col-sm-7 col-md-offset-1">
+
+                                                <input id="place" type="text" th:field="*{place}" placeholder="PLACE"
+                                                       class="form-control" /> 
+
+                                                <label th:if="${#fields.hasErrors('place')}" th:errors="*{place}"
+                                                       class="validation-message"></label>
+                                            </div>
+
+                                            <div class="col-sm-4">             
+                                                <button type="button" class="btn btn-primary text-center" th:onclick="'javascript:getContactId();'">
+                                                    Search
+                                                </button>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <div class="col-sm-10 col-md-offset-1">
+                                                <div  id="googleMap" align="center" style="height: 380px;" ></div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="form-group">
+                                            <div class="col-sm-10 col-md-offset-1">
+                                                <label th:if="${#fields.hasErrors('location')}" th:errors="*{location}"
+                                                       class="validation-message"></label>
+                                                <input type="text" th:field="*{location}" placeholder="location"
+                                                       class="form-control" readonly  /> 
+                                            </div>
+                                        </div>
 
 
 
 
-                                    <span th:utext="${successMessage}"></span>
+                                        <div class="form-group">
 
-
-                                    <script>
-                                        $(document).ready(function () {
-                                            $('.date').datepicker({dateFormat: 'dd.mm.yy'});
-                                        });
-                                    </script>
-
+                                            <div class="col-sm-10 col-md-offset-1">
+                                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                            </div>
+                                        </div>
 
 
 
-                                </form>
+                                        
 
-                                <div align="center">
-                                    <div align = "center" class="row">
-                                        <div class="col-md-10 col-md-offset-1">
 
-                                            <form th:action="@{/admin/home}" method="get" class="form-horizontal">
-                                                <div class="form-group">
+                                        <script>
+                                            $(document).ready(function () {
+                                                $('.date').datepicker({dateFormat: 'dd.mm.yy'});
+                                            });
+                                        </script>
 
-                                                    <div class="col-sm-12">
-                                                        <button  class="btn btn-md btn-danger btn-block" name="registration"
-                                                                 type="Submit">Back</button>
+
+
+
+                                    </form>
+
+                                    <div align="center">
+                                        <div align = "center" class="row">
+                                            <div class="col-md-10 col-md-offset-1">
+
+                                                <form th:action="@{/admin/home}" method="get" class="form-horizontal">
+                                                    <div class="form-group">
+
+                                                        <div class="col-sm-12">
+                                                            <button  class="btn btn-md btn-danger btn-block" name="registration"
+                                                                     type="Submit">Back</button>
+                                                        </div>
+
                                                     </div>
-
-                                                </div>
-                                            </form> 
+                                                </form> 
+                                            </div>
                                         </div>
                                     </div>
+
+
+
+
                                 </div>
-
-
-
-
                             </div>
-                        </div>
                         </div>
                     </div>
 

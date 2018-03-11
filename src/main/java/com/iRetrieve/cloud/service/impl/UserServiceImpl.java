@@ -23,6 +23,7 @@ import com.iRetrieve.cloud.repository.RoleRepository;
 import com.iRetrieve.cloud.repository.UserRepository;
 import com.iRetrieve.cloud.repository.VerificationTokenRepository;
 import com.iRetrieve.cloud.service.UserService;
+import java.util.List;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -81,6 +82,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public VerificationToken getVerificationToken(User user) {
         return tokenRepository.findByUser(user);
+    }
+
+    @Override
+    public List<User> findAllByOrderByUserIdAsc() {
+        return userRepository.findAllByOrderByUserIdAsc();
     }
 
 }
