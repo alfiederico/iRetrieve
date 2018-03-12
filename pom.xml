@@ -4,7 +4,7 @@
     <groupId>com.iRetrieve</groupId>
     <artifactId>iRetrieve</artifactId>
     <version>0.0.1</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>iRetrieve</name>
     <description>Project for retrieving lost items</description>
     <parent>

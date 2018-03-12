@@ -8,6 +8,7 @@ package com.iRetrieve.cloud.controller;
 import com.iRetrieve.cloud.domain.History;
 import com.iRetrieve.cloud.domain.Report;
 import com.iRetrieve.cloud.domain.User;
+import com.iRetrieve.cloud.service.HistoryService;
 import com.iRetrieve.cloud.service.ReportService;
 import com.iRetrieve.cloud.service.UserService;
 import java.time.ZonedDateTime;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +41,9 @@ public class ReportController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private HistoryService historyService;
 
     @RequestMapping(value = "/report", method = RequestMethod.GET)
     public ModelAndView registration() {
@@ -54,33 +59,32 @@ public class ReportController {
     Report addNewReport(@RequestBody Report report) {
 
         Report reportOld = reportService.findByUserId(report.getUserId());
-        try{
+        try {
             if (reportOld == null) {
-            java.text.SimpleDateFormat sdf
-                    = new java.text.SimpleDateFormat("dd-mm-yyyy HH:mm:ss");
+                java.text.SimpleDateFormat sdf
+                        = new java.text.SimpleDateFormat("dd-mm-yyyy HH:mm:ss");
 
-            try {
-                report.setDate(sdf.format(sdf.parse(report.getDate())));
-                report.setDate_created(sdf.format(new java.util.Date()));
-                report.setLast_updated(sdf.format(new java.util.Date()));
-            } catch (Exception ex) {
+                try {
+                    report.setDate(sdf.format(sdf.parse(report.getDate())));
+                    report.setDate_created(sdf.format(new java.util.Date()));
+                    report.setLast_updated(sdf.format(new java.util.Date()));
+                } catch (Exception ex) {
 
+                }
+
+                report.setIsettle(0);
+                report.setUsettle(0);
+                reportService.saveReport(report);
+                return report;
+
+            } else {
+                return null;
             }
-
-            report.setIsettle(0);
-            report.setUsettle(0);
-            reportService.saveReport(report);
-            return report;
-
-        } else {
-            return null;
-        }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             String exx = ex.getMessage();
             System.out.println(ex.getMessage());
             return null;
         }
-        
 
     }
 
@@ -89,7 +93,6 @@ public class ReportController {
     List<Report> getHistory() {
 
         List<Report> arrReport = reportService.findAllByOrderByUserIdAsc();
-  
 
         if (arrReport.size() < 1) {
             return null;
@@ -101,7 +104,7 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/report", method = RequestMethod.POST)
-    public ModelAndView createNewReport(@Valid Report report, BindingResult bindingResult) {
+    public ModelAndView createNewReport(@Valid Report report, BindingResult bindingResult, Model model) {
         ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
@@ -130,6 +133,9 @@ public class ReportController {
                 report.setUsettle(0);
                 reportService.saveReport(report);
                 modelAndView.addObject("adminMessage", "Report has been created successfully");
+                model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
+                model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
+                model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
                 modelAndView.setViewName("/admin/home");
             } else {
                 modelAndView.addObject("successMessage", "Please settle previous report before add new one");

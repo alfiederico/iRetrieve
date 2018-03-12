@@ -56,7 +56,7 @@ public class SettleController {
             modelAndView.addObject("adminMessage", "Report item not found. Report item first.");
             model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
             model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
-            model.addAttribute("histories",  historyService.findAllByOrderByUserIdAsc());
+            model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
             modelAndView.setViewName("/admin/home");
 
         } else {
@@ -191,7 +191,7 @@ public class SettleController {
     }
 
     @RequestMapping(value = {"/settle"}, method = RequestMethod.POST)
-    public ModelAndView updateSettle(ModelAndView modelAndView, @RequestParam("paramName") String id) {
+    public ModelAndView updateSettle(ModelAndView modelAndView, @RequestParam("paramName") String id, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         Report report = reportService.findByUserId(user.getUserId());
@@ -256,6 +256,10 @@ public class SettleController {
         } else {
             modelAndView.addObject("adminMessage", "Please wait for other party to settle");
         }
+
+        model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
+        model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
+        model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
 
         modelAndView.setViewName("/admin/home");
         return modelAndView;
