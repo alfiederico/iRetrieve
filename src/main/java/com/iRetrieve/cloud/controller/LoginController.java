@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.iRetrieve.cloud.domain.User;
 import com.iRetrieve.cloud.domain.VerificationToken;
 import com.iRetrieve.cloud.service.HistoryService;
+import com.iRetrieve.cloud.service.HotspotService;
 import com.iRetrieve.cloud.service.ReportService;
 import com.iRetrieve.cloud.service.UserService;
 import java.util.Calendar;
@@ -53,9 +54,12 @@ public class LoginController {
 
     @Autowired
     private ReportService reportService;
-    
-        @Autowired
+
+    @Autowired
     private HistoryService historyService;
+
+    @Autowired
+    private HotspotService hotspotService;
 
     @Autowired
     private Session emailSession;
@@ -319,9 +323,8 @@ public class LoginController {
         modelAndView.setViewName("admin/home");
         model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
         model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
-        model.addAttribute("histories",  historyService.findAllByOrderByUserIdAsc());
-        
-        
+        model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
+        model.addAttribute("hotspots", hotspotService.findAllByOrderByIdAsc());
 
         return modelAndView;
     }

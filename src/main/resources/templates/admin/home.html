@@ -39,6 +39,9 @@
                                     <li>
                                         <a th:href = "@{/history}" method="get"> HISTORY</a>
                                     </li>
+                                    <li>
+                                        <a th:href = "@{/hotspot}" method="get"> HOTSPOT</a>
+                                    </li>
                                     <li><a th:href = "@{/setting}" method = "get" >SETTING</a></li>
                                     <li><a th:href = "@{/logout}" method= "get"  >LOG OUT</a></li>
 
@@ -206,6 +209,53 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading" role="tab" id="headingThree">
+                                                <h4 class="panel-title">
+                                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                        HOTSPOT
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                                                <div class="panel-body">
+                                                    <div align = "center" id="form-table">
+                                                        <div class="heading">
+
+                                                        </div>
+
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ID</th>
+
+                                                                    <th>NAME</th>
+                                                                    <th>PLACE</th>
+
+                                                                    <th>CONTACT</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr th:each="hotspot,iterationStatus  : ${hotspots}">
+                                                                    <td th:text="${hotspot.id}"></td>
+
+                                                                    <td th:text="${hotspot.name}"></td>
+                                                                    <td th:text="${hotspot.place}"></td>
+
+                                                                    <td th:text="${hotspot.contact}"></td>
+                                                   
+
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        
                                     </div>
                                 </div>
                             </div>

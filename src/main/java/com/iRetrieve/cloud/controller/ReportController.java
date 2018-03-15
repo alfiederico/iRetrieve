@@ -9,6 +9,7 @@ import com.iRetrieve.cloud.domain.History;
 import com.iRetrieve.cloud.domain.Report;
 import com.iRetrieve.cloud.domain.User;
 import com.iRetrieve.cloud.service.HistoryService;
+import com.iRetrieve.cloud.service.HotspotService;
 import com.iRetrieve.cloud.service.ReportService;
 import com.iRetrieve.cloud.service.UserService;
 import java.time.ZonedDateTime;
@@ -41,9 +42,12 @@ public class ReportController {
 
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private HistoryService historyService;
+
+    @Autowired
+    private HotspotService hotspotService;
 
     @RequestMapping(value = "/report", method = RequestMethod.GET)
     public ModelAndView registration() {
@@ -136,6 +140,7 @@ public class ReportController {
                 model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
                 model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
                 model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
+                model.addAttribute("hotspots", hotspotService.findAllByOrderByIdAsc());
                 modelAndView.setViewName("/admin/home");
             } else {
                 modelAndView.addObject("successMessage", "Please settle previous report before add new one");

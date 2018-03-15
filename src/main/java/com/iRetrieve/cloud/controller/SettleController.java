@@ -10,6 +10,7 @@ import com.iRetrieve.cloud.domain.Message;
 import com.iRetrieve.cloud.domain.Report;
 import com.iRetrieve.cloud.domain.User;
 import com.iRetrieve.cloud.service.HistoryService;
+import com.iRetrieve.cloud.service.HotspotService;
 import com.iRetrieve.cloud.service.ReportService;
 import com.iRetrieve.cloud.service.UserService;
 import java.util.ArrayList;
@@ -42,6 +43,9 @@ public class SettleController {
 
     @Autowired
     private HistoryService historyService;
+
+    @Autowired
+    private HotspotService hotspotService;
 
     @RequestMapping(value = {"/settle"}, method = RequestMethod.GET)
     public ModelAndView settle(Model model) {
