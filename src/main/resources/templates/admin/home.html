@@ -233,20 +233,17 @@
                                                                     <th>NAME</th>
                                                                     <th>PLACE</th>
 
-                                                                    <th>CONTACT</th>
-
+                                                                    <th>CONTACT</th>>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 <tr th:each="hotspot,iterationStatus  : ${hotspots}">
-                                                                    <td th:text="${hotspot.id}"></td>
+                                                                    <td><a th:href="@{/hotspotget?id=}+${hotspot.id}" method="get" th:text="${hotspot.id}"></a></td>
 
                                                                     <td th:text="${hotspot.name}"></td>
                                                                     <td th:text="${hotspot.place}"></td>
 
-                                                                    <td th:text="${hotspot.contact}"></td>
-                                                   
-
+                                                                    <td th:text="${hotspot.contact}"></td>                                                   
                                                                 </tr>
                                                             </tbody>
                                                         </table>

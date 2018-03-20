@@ -10,8 +10,8 @@
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
                 </head>
                 <body>
-                    
-                     <nav style = "background-color: #1B435D;" class="navbar navbar-light navbar-static-top"> 
+
+                    <nav style = "background-color: #1B435D;" class="navbar navbar-light navbar-static-top"> 
                         <div class="container">
                             <div class="navbar-header">
                                 <a href="#" class ="navbar-brand">  <span th:utext="${userName}"></span> </a>
@@ -28,6 +28,9 @@
                                     <li><a th:href="@{/settle}" method="get" >SETTLE</a></li>
                                     <li>
                                         <a th:href = "@{/history}" method="get"> HISTORY</a>
+                                    </li>
+                                    <li>
+                                        <a th:href = "@{/hotspot}" method="get"> HOTSPOT</a>
                                     </li>
                                     <li><a th:href = "@{/logout}" method = "get" >SETTING</a></li>
                                     <li><a th:href = "@{/logout}" method = "get"  >LOG OUT</a></li>
@@ -96,9 +99,9 @@
 
                                     <div class="form-group">
                                         <div class="col-sm-8 col-md-offset-2">
-                                            <input type="number" th:field="*{radius}" placeholder="Report Radius in Kilometer"
+                                            Radius in Kilometer <input type="number" th:field="*{radius}" placeholder="Report Radius in Kilometer"
                                                    class="form-control"/>
-                                         
+
                                         </div>
                                     </div>
 
@@ -116,7 +119,7 @@
 
                                 </form>
 
-                <div align="center">
+                                <div align="center">
                                     <div align = "center" class="row">
                                         <div class="col-md-8 col-md-offset-2">
 

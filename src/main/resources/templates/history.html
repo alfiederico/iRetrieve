@@ -32,6 +32,9 @@
                                     <li>
                                         <a th:href = "@{/History}" method="get"> HISTORY</a>
                                     </li>
+                                    <li>
+                                        <a th:href = "@{/hotspot}" method="get"> HOTSPOT</a>
+                                    </li>
                                     <li><a th:href = "@{/setting}" method = "get" >SETTING</a></li>
                                     <li><a th:href = "@{/logout}" method = "get"  >LOG OUT</a></li>
 
@@ -62,33 +65,33 @@
 
                             <table class="table">
                                 <thead>
-                                <tr>
-                                    <th>ID</th>
-                    
-                                    <th>TYPE</th>
-                                    <th>SUBJECT</th>
+                                    <tr>
+                                        <th>ID</th>
 
-                                    <th>DESCRIPTION</th>
-                                    <th>DATE</th>
-                                    <th>PLACE</th>
-                                    <th>LOCATION</th>
-                                    <th>REFERENCE ID</th>
-                                </tr>
+                                        <th>TYPE</th>
+                                        <th>SUBJECT</th>
+
+                                        <th>DESCRIPTION</th>
+                                        <th>DATE</th>
+                                        <th>PLACE</th>
+                                        <th>LOCATION</th>
+                                        <th>REFERENCE ID</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="hist,iterationStatus  : ${history}">
-                                    <td th:text="${hist.id}"></td>
-                          
-                                    <td th:text="${hist.type}"></td>
-                                    <td th:text="${hist.subject}"></td>
+                                    <tr th:each="hist,iterationStatus  : ${history}">
+                                        <td th:text="${hist.id}"></td>
 
-                                    <td th:text="${hist.description}"></td>
-                                    <td th:text="${hist.date}"></td>
-                                    <td th:text="${hist.place}"></td>
+                                        <td th:text="${hist.type}"></td>
+                                        <td th:text="${hist.subject}"></td>
 
-                                    <td th:text="${hist.location}"></td>
-                                    <td th:text="${hist.settleId}"></td>
-                                </tr>
+                                        <td th:text="${hist.description}"></td>
+                                        <td th:text="${hist.date}"></td>
+                                        <td th:text="${hist.place}"></td>
+
+                                        <td th:text="${hist.location}"></td>
+                                        <td th:text="${hist.settleId}"></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

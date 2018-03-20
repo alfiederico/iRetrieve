@@ -58,6 +58,15 @@ public class HotspotController {
         modelAndView.setViewName("hotspot");
         return modelAndView;
     }
+    
+    @RequestMapping(value = "/hotspotget", method = RequestMethod.GET)
+    public ModelAndView gethotspot(@RequestParam(value = "id", required = true) String id, Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+        Hotspot hotspot = hotspotService.findById(Integer.parseInt(id));
+        model.addAttribute("hotspot", hotspot);
+        modelAndView.setViewName("hotspotupdate");
+        return modelAndView;
+    }
 
     @RequestMapping(value = "/hotspot", method = RequestMethod.POST)
     public ModelAndView createNewHotspot(@Valid Hotspot hotspot, BindingResult bindingResult, Model model) {
@@ -82,6 +91,44 @@ public class HotspotController {
             model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
             model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
             model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
+            model.addAttribute("hotspots", hotspotService.findAllByOrderByIdAsc());
+            modelAndView.setViewName("/admin/home");
+
+        }
+        return modelAndView;
+    }
+    
+        @RequestMapping(value = "/hotspotget", method = RequestMethod.POST)
+    public ModelAndView updateHotspot(@Valid Hotspot hotspot, BindingResult bindingResult, Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("hotspotupdate");
+        } else {
+            
+            Hotspot hotspotupdate = hotspotService.findById(hotspot.getId());
+
+            java.text.SimpleDateFormat sdf
+                    = new java.text.SimpleDateFormat("dd-mm-yyyy HH:mm:ss");
+
+            try {
+                hotspotupdate.setDate_created(sdf.format(new java.util.Date()));
+                hotspotupdate.setLast_updated(sdf.format(new java.util.Date()));
+            } catch (Exception ex) {
+
+            }
+            
+            hotspotupdate.setName(hotspot.getName());
+            hotspotupdate.setContact(hotspot.getContact());
+            hotspotupdate.setPlace(hotspot.getPlace());
+            
+
+            hotspotService.saveHotspot(hotspotupdate);
+            modelAndView.addObject("adminMessage", "Hotspot has been created successfully");
+            model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
+            model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
+            model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
+            model.addAttribute("hotspots", hotspotService.findAllByOrderByIdAsc());
             modelAndView.setViewName("/admin/home");
 
         }

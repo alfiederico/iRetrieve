@@ -62,7 +62,15 @@ public class ReportController {
     public @ResponseBody
     Report addNewReport(@RequestBody Report report) {
 
-        Report reportOld = reportService.findByUserId(report.getUserId());
+        Report reportOld = null;
+
+        List<Report> reports = reportService.findAllByOrderByUserIdAsc();
+
+        for (Report e : reports) {
+            if (e.getUserId() == report.getUserId()) {
+                reportOld = e;
+            }
+        }
         try {
             if (reportOld == null) {
                 java.text.SimpleDateFormat sdf
@@ -76,8 +84,15 @@ public class ReportController {
 
                 }
 
+                if (reports.size() > 0) {
+                    for (Report f : reports) {
+                        //check if existing location is near from report location
+                    }
+                }
+
                 report.setIsettle(0);
                 report.setUsettle(0);
+
                 reportService.saveReport(report);
                 return report;
 
@@ -119,7 +134,15 @@ public class ReportController {
             User user = userService.findUserByEmail(auth.getName());
             report.setUserId(user.getUserId());
 
-            Report reportOld = reportService.findByUserId(user.getUserId());
+            Report reportOld = null;
+
+            List<Report> reports = reportService.findAllByOrderByUserIdAsc();
+
+            for (Report e : reports) {
+                if (e.getUserId() == report.getUserId()) {
+                    reportOld = e;
+                }
+            }
 
             if (reportOld == null) {
                 java.text.SimpleDateFormat sdf
@@ -131,6 +154,12 @@ public class ReportController {
                     report.setLast_updated(sdf.format(new java.util.Date()));
                 } catch (Exception ex) {
 
+                }
+
+                if (reports.size() > 0) {
+                    for (Report f : reports) {
+                        //check if existing location is near from report location
+                    }
                 }
 
                 report.setIsettle(0);

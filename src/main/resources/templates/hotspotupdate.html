@@ -2,15 +2,15 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Registration Form</title>
+        <title>New Hotspot</title>
         <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
             <link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" />
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-                <div 
-                    th:include="fragments/pinpoint :: functions" th:remove="tag">[Map Javascript]</div>
+                <div th:if="${hotspot.hasLocation()}" 
+                    th:include="fragments/pinpointupdate :: functions" th:remove="tag">[Map Javascript]</div>
                 </head>
                 <body>
                     <nav style = "background-color: #1B435D;" class="navbar navbar-light navbar-static-top"> 
@@ -51,61 +51,33 @@
                         <div align="center" >
                             <div align = "center" class="row">
                                 <div class="col-md-9 col-md-offset-3">
-                                    <form autocomplete="off" action="#" th:action="@{/report}"
-                                          th:object="${report}" method="post" class="form-horizontal"
+                                    <form autocomplete="off" action="#" th:action="@{/hotspotget}"
+                                          th:object="${hotspot}" method="post" class="form-horizontal"
                                           role="form">
                                         <span th:utext="${successMessage}"></span>
-                                        <h2><b>Report Form</b></h2>
-                                        <div class="form-group">
-                                            <div class="col-sm-10 col-md-offset-1">
-                                                <label th:if="${#fields.hasErrors('type')}" th:errors="*{type}"
-                                                       class="validation-message"></label>
-                                                <select th:field="*{type}" placeholder="type"
-                                                        class="form-control" /> 
-                                                <option value ="LOST">LOST</option>
-                                                <option value ="FOUND">FOUND</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                        <h2><b>Edit Hotspot</b></h2>
+
+
 
                                         <div class="form-group">
                                             <div class="col-sm-10 col-md-offset-1">
-                                                <label th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"
+                                                <label th:if="${#fields.hasErrors('id')}" th:errors="*{id}"
                                                        class="validation-message"></label>
-                                                <select th:field="*{subject}" placeholder="subject"
-                                                        class="form-control" /> 
-                                                <option value ="DEVICE">DEVICE</option>
-                                                <option value ="ID">ID</option>
-                                                <option value ="KEY">KEY</option>
-                                                <option value ="MONEY">MONEY</option>
-                                                <option value ="PET">PET</option>
-                                                <option value ="WALLET">WALLET</option>
-                                                <option value ="OTHERS">OTHERS</option>
-
-                                                </select>
+                                                <input type="text" th:field="*{id}" placeholder="ID"
+                                                       class="form-control" readonly /> 
                                             </div>
                                         </div>
 
 
-
-
                                         <div class="form-group">
                                             <div class="col-sm-10 col-md-offset-1">
-                                                <label th:if="${#fields.hasErrors('description')}" th:errors="*{decription}"
+                                                <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
                                                        class="validation-message"></label>
-                                                <input type="text" th:field="*{description}" placeholder="DESCRIPTION"
+                                                <input type="text" th:field="*{name}" placeholder="NAME"
                                                        class="form-control" /> 
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <div class="col-sm-10 col-md-offset-1">
-                                                <label th:if="${#fields.hasErrors('date')}" th:errors="*{date}"
-                                                       class="validation-message"></label>
-                                                <input type="date" th:field="*{date}" placeholder="DATE"
-                                                       class="form-control" /> 
-                                            </div>
-                                        </div>
 
                                         <div class="form-group">
                                             <div class="col-sm-10 col-md-offset-1">
@@ -134,7 +106,7 @@
                                         </div>
 
 
-                                        <div class="form-group">
+                                        <div class="form-group" th:if="${hotspot.hasLocation()}">
                                             <div class="col-sm-10 col-md-offset-1">
                                                 <div  id="googleMap" align="center" style="height: 380px;" ></div>
                                             </div>
@@ -157,7 +129,7 @@
                                         <div class="form-group">
 
                                             <div class="col-sm-10 col-md-offset-1">
-                                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                                <button type="submit" class="btn btn-primary btn-block">Update</button>
                                             </div>
                                         </div>
 

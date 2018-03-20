@@ -34,6 +34,9 @@
                                     <li>
                                         <a th:href = "@{/history}" method="get"> HISTORY</a>
                                     </li>
+                                    <li>
+                                        <a th:href = "@{/hotspot}" method="get"> HOTSPOT</a>
+                                    </li>
                                     <li><a th:href = "@{/logout}" method = "get" >SETTING</a></li>
                                     <li><a th:href = "@{/logout}" method = "get"  >LOG OUT</a></li>
 
@@ -110,51 +113,51 @@
                                 <tr th:if="${report.hasLocation()}" class="locationRow">
                                     <td class="td-label">
                                         <div th:text="#{report.label.location}">[Location]</div>
-                                   
-                                                </td>
-                                                <td>
 
-                                                    <div id="googleMap" style=" height: 400px;"></div>
-                                                </td>
-                                                </tr>
+                                    </td>
+                                    <td>
 
-
-                                                <tr>
-                                                    <td class="td-label">
-                                                        <div th:text="#{report.label.isettle}">[Found]</div>
-                                                    </td>
-                                                    <td>
-
-                                                        <form th:action="@{/settle}" method="post">
-
-                                                            <input id="place" name="paramName" type="text" th:value="${report.isettle}" placeholder="Lost/Found ID"
-                                                                   class="form-control" />
-
-                                                            <button  style= "margin-top:5px;" class="btn btn-md btn-primary btn-block" name="registration"
-                                                                     type="Submit">Settle</button>
-                                                        </form>
+                                        <div id="googleMap" style=" height: 400px;"></div>
+                                    </td>
+                                </tr>
 
 
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                    </td>
-                                                    <td>
-                                                        <form th:action="@{/admin/home}" method="get">
-                                                            <button  class="btn btn-md btn-danger btn-block" name="registration"
-                                                                     type="Submit">Back</button>
-                                                        </form> 
-                                                    </td>
-                                                </tr>
-                                                </table>
-                                                </div>
+                                <tr>
+                                    <td class="td-label">
+                                        <div th:text="#{report.label.isettle}">[Found]</div>
+                                    </td>
+                                    <td>
+
+                                        <form th:action="@{/settle}" method="post">
+
+                                            <input id="place" name="paramName" type="text" th:value="${report.isettle}" placeholder="Lost/Found ID"
+                                                   class="form-control" />
+
+                                            <button  style= "margin-top:5px;" class="btn btn-md btn-primary btn-block" name="registration"
+                                                     type="Submit">Settle</button>
+                                        </form>
 
 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        <form th:action="@{/admin/home}" method="get">
+                                            <button  class="btn btn-md btn-danger btn-block" name="registration"
+                                                     type="Submit">Back</button>
+                                        </form> 
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
 
 
 
 
-                                                </div>
-                                                </body>
-                                                </html>
+
+
+                    </div>
+                </body>
+                </html>
