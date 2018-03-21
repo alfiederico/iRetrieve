@@ -84,9 +84,15 @@ public class ReportController {
 
                 }
 
+                String[] current = report.getLocation().split(",");
+
                 if (reports.size() > 0) {
                     for (Report f : reports) {
-                        //check if existing location is near from report location
+                        String[] currentF = f.getLocation().split(",");
+                        if (distance(Double.parseDouble(current[0]), Double.parseDouble(current[1]), Double.parseDouble(currentF[0]), Double.parseDouble(currentF[1]), 'K') <= 1) {
+                            report.setLocation(f.getLocation());
+                            break;
+                        }
                     }
                 }
 
@@ -105,6 +111,29 @@ public class ReportController {
             return null;
         }
 
+    }
+
+    public Double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        if (unit == 'K') {
+            dist = dist * 1.609344;
+        } else {
+            dist = dist * 0.8684;
+        }
+
+        return dist;
+    }
+
+    public double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    public double rad2deg(double rad) {
+        return rad / Math.PI * 180.0;
     }
 
     @RequestMapping(value = "/mobile/reports", method = RequestMethod.GET)
@@ -156,9 +185,15 @@ public class ReportController {
 
                 }
 
+                String[] current = report.getLocation().split(",");
+
                 if (reports.size() > 0) {
                     for (Report f : reports) {
-                        //check if existing location is near from report location
+                        String[] currentF = f.getLocation().split(",");
+                        if (distance(Double.parseDouble(current[0]), Double.parseDouble(current[1]), Double.parseDouble(currentF[0]), Double.parseDouble(currentF[1]), 'K') <= 1) {
+                            report.setLocation(f.getLocation());
+                            break;
+                        }
                     }
                 }
 
