@@ -6,6 +6,7 @@
 package com.iRetrieve.cloud.controller;
 
 import com.iRetrieve.cloud.domain.History;
+import com.iRetrieve.cloud.domain.Hotspot;
 import com.iRetrieve.cloud.domain.Report;
 import com.iRetrieve.cloud.domain.User;
 import com.iRetrieve.cloud.service.HistoryService;
@@ -85,13 +86,28 @@ public class ReportController {
                 }
 
                 String[] current = report.getLocation().split(",");
+                boolean bFlag = true;
 
                 if (reports.size() > 0) {
                     for (Report f : reports) {
                         String[] currentF = f.getLocation().split(",");
                         if (distance(Double.parseDouble(current[0]), Double.parseDouble(current[1]), Double.parseDouble(currentF[0]), Double.parseDouble(currentF[1]), 'K') <= 1) {
                             report.setLocation(f.getLocation());
+                            bFlag = false;
                             break;
+                        }
+                    }
+                }
+
+                if (bFlag) {
+                    List<Hotspot> hotspots = hotspotService.findAllByOrderByIdAsc();
+                    if (hotspots.size() > 0) {
+                        for (Hotspot g : hotspots) {
+                            String[] currentG = g.getLocation().split(",");
+                            if (distance(Double.parseDouble(current[0]), Double.parseDouble(current[1]), Double.parseDouble(currentG[0]), Double.parseDouble(currentG[1]), 'K') <= 1) {
+                                report.setLocation(g.getLocation());
+                                break;
+                            }
                         }
                     }
                 }
@@ -186,13 +202,28 @@ public class ReportController {
                 }
 
                 String[] current = report.getLocation().split(",");
-
+                boolean bFlag = true;
+                
                 if (reports.size() > 0) {
                     for (Report f : reports) {
                         String[] currentF = f.getLocation().split(",");
                         if (distance(Double.parseDouble(current[0]), Double.parseDouble(current[1]), Double.parseDouble(currentF[0]), Double.parseDouble(currentF[1]), 'K') <= 1) {
                             report.setLocation(f.getLocation());
+                            bFlag = false;
                             break;
+                        }
+                    }
+                }
+
+                if (bFlag) {
+                    List<Hotspot> hotspots = hotspotService.findAllByOrderByIdAsc();
+                    if (hotspots.size() > 0) {
+                        for (Hotspot g : hotspots) {
+                            String[] currentG = g.getLocation().split(",");
+                            if (distance(Double.parseDouble(current[0]), Double.parseDouble(current[1]), Double.parseDouble(currentG[0]), Double.parseDouble(currentG[1]), 'K') <= 1) {
+                                report.setLocation(g.getLocation());
+                                break;
+                            }
                         }
                     }
                 }

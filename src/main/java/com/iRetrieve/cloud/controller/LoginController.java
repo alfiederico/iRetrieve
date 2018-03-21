@@ -352,6 +352,7 @@ public class LoginController {
             return "redirect:/confirm";
         } else {
             user.setActive(true);
+            user.setRadius(50);
             userService.saveUser(user);
         }
 

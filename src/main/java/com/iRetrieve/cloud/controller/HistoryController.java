@@ -9,6 +9,7 @@ import com.iRetrieve.cloud.domain.History;
 import com.iRetrieve.cloud.domain.Report;
 import com.iRetrieve.cloud.domain.User;
 import com.iRetrieve.cloud.service.HistoryService;
+import com.iRetrieve.cloud.service.HotspotService;
 import com.iRetrieve.cloud.service.ReportService;
 import com.iRetrieve.cloud.service.UserService;
 import java.util.ArrayList;
@@ -38,6 +39,9 @@ public class HistoryController {
 
     @Autowired
     private ReportService reportService;
+            
+    @Autowired
+    private HotspotService hotspotService;
 
     @RequestMapping(value = "/history", method = RequestMethod.GET)
     public ModelAndView settle(Model model) {
@@ -61,6 +65,12 @@ public class HistoryController {
         if (arrHistory2.size() < 1) {
             modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
             modelAndView.addObject("adminMessage", "History item not found. settle item first.");
+
+            model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
+            model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
+            model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
+            model.addAttribute("hotspots", hotspotService.findAllByOrderByIdAsc());
+            modelAndView.setViewName("/admin/home");
             modelAndView.setViewName("/admin/home");
 
         } else {
