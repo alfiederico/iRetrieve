@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  *
@@ -80,8 +82,8 @@ public class SettingController {
     }
 
     @RequestMapping(value = "/setting", method = RequestMethod.POST)
-    public ModelAndView updateUser(@Valid User user, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
+    public ModelAndView updateUser(@Valid User user, BindingResult bindingResult, RedirectAttributes ra) {
+        ModelAndView modelAndView = null;
 
         User userExists = userService.findUserByEmail(user.getEmail());
 
@@ -95,12 +97,12 @@ public class SettingController {
         userExists.setRadius(user.getRadius());
 
         if (bindingResult.hasErrors()) {
+            modelAndView = new ModelAndView();
             modelAndView.setViewName("registration");
         } else {
             userService.saveUser(userExists);
-            modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
-            modelAndView.addObject("adminMessage", "Personal details updated");
-            modelAndView.setViewName("/admin/home");
+            modelAndView = new ModelAndView(new RedirectView("/admin/home"));
+            ra.addFlashAttribute("adminMessage", "PERSONAL DETAILS UPDATED");
 
         }
         return modelAndView;

@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  *
@@ -48,22 +50,20 @@ public class SettleController {
     private HotspotService hotspotService;
 
     @RequestMapping(value = {"/settle"}, method = RequestMethod.GET)
-    public ModelAndView settle(Model model) {
+    public ModelAndView settle(Model model, RedirectAttributes ra) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         Report report = reportService.findByUserId(user.getUserId());
 
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = null;
 
         if (report == null) {
-            modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
-            modelAndView.addObject("adminMessage", "Report item not found. Report item first.");
-            model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
-            model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
-            model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
-            modelAndView.setViewName("/admin/home");
+            modelAndView = new ModelAndView(new RedirectView("/admin/home"));
+            ra.addFlashAttribute("adminMessage", "REPORT ITEM NOT FOUND. PLEASE REPORT ITEM FIRST.");
+   
 
         } else {
+            modelAndView = new ModelAndView();
             modelAndView.setViewName("settle");
             model.addAttribute("report", report);
         }
@@ -195,12 +195,14 @@ public class SettleController {
     }
 
     @RequestMapping(value = {"/settle"}, method = RequestMethod.POST)
-    public ModelAndView updateSettle(ModelAndView modelAndView, @RequestParam("paramName") String id, Model model) {
+    public ModelAndView updateSettle(@RequestParam("paramName") String id, Model model, RedirectAttributes ra) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         Report report = reportService.findByUserId(user.getUserId());
         Report reportB = reportService.findById(Integer.parseInt(id));
         report.setIsettle(Integer.parseInt(id));
+        
+        ModelAndView modelAndView = new ModelAndView(new RedirectView("/admin/home"));
 
         boolean bSettle = false;
         if (reportB != null) {
@@ -256,16 +258,12 @@ public class SettleController {
         }
 
         if (bSettle == true) {
-            modelAndView.addObject("adminMessage", "Report item already settle. Details go to History");
+            ra.addFlashAttribute("adminMessage", "REPORT ITEM ALREADY SETTLE. DETAILS GO TO HISTORY");
         } else {
-            modelAndView.addObject("adminMessage", "Please wait for other party to settle");
+            ra.addFlashAttribute("adminMessage", "PLEASE WAIT FOR OTHER PARTY TO SETTLE");
         }
 
-        model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
-        model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
-        model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
 
-        modelAndView.setViewName("/admin/home");
         return modelAndView;
     }
 }

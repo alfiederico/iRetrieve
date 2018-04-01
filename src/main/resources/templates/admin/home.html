@@ -59,7 +59,7 @@
                     <div class="panel-group" style="margin-top:40px">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                <span th:utext="'ADMINISTRATOR - ' + ${adminMessage}"></span>
+                                <span th:utext="'ADMINISTRATOR - (' + ${adminMessage} + ')'"></span>
                             </div>
                             <div class="panel-body">
                                 <div class="wrapper center-block">
@@ -178,30 +178,26 @@
                                                         <table class="table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>ID</th>
-
-                                                                    <th>TYPE</th>
-                                                                    <th>SUBJECT</th>
-
-                                                                    <th>DESCRIPTION</th>
-                                                                    <th>DATE</th>
-                                                                    <th>PLACE</th>
+                                                                    
                                                                     <th>REFERENCE ID</th>
+                                                                    <th>TYPE</th>
+                                                                    <th>DATE</th>
+                                                                    <th>SUBJECT</th>
+                                                                    <th>DESCRIPTION</th>
+                                                                    <th>PLACE</th>
+
 
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
                                                                 <tr th:each="history,iterationStatus  : ${histories}">
-                                                                    <td th:text="${history.id}"></td>
-
+                                                                    
+                                                                    <td><a th:href="@{/historyget?id=}+${history.id}" method="get" th:text="${history.settleId}"></a></td>
                                                                     <td th:text="${history.type}"></td>
-                                                                    <td th:text="${history.subject}"></td>
-
-                                                                    <td th:text="${history.description}"></td>
                                                                     <td th:text="${history.date}"></td>
+                                                                    <td th:text="${history.subject}"></td>
+                                                                    <td th:text="${history.description}"></td>
                                                                     <td th:text="${history.place}"></td>
-                                                                    <td th:text="${history.settleId}"></td>
-
                                                                 </tr>
                                                             </tbody>
                                                         </table>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Admin Page</title>
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+            <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+                <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+                <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+                <div th:if="${history.hasLocation()}" 
+                     th:include="fragments/maphistory :: functions" th:remove="tag">[Map Javascript]</div>
+                </head>
+
+                <body>
+                    <nav style = "background-color: #1B435D;" class="navbar navbar-light navbar-static-top"> 
+                        <div class="container">
+                            <div class="navbar-header">
+                                <a href="#" class ="navbar-brand">  <span th:utext="${userName}"></span> </a>
+                                <button type = "button" class="navbar-toggle" style = "background-color: #21273D;" data-toggle = "collapse" data-target = "#navHeaderCollapse">
+                                    <span style="background-color: #EAB4F8;" class="icon-bar"></span>
+                                    <span style="background-color: #EAB4F8;" class="icon-bar"></span>
+                                    <span style="background-color: #EAB4F8;" class="icon-bar"></span>
+                                </button>
+
+                            </div>
+                            <div class = "collapse navbar-collapse" id="navHeaderCollapse">
+                                <ul class = "nav navbar-nav navbar-right">
+                                    <li class = "active"><a th:href = "@{/report}" method="get">REPORT</a></li>
+                                    <li><a th:href="@{/settle}" method="get" >SETTLE</a></li>
+                                    <li>
+                                        <a th:href = "@{/history}" method="get"> HISTORY</a>
+                                    </li>
+                                    <li>
+                                        <a th:href = "@{/hotspot}" method="get"> HOTSPOT</a>
+                                    </li>
+                                    <li><a th:href = "@{/logout}" method = "get" >SETTING</a></li>
+                                    <li><a th:href = "@{/logout}" method = "get"  >LOG OUT</a></li>
+
+
+
+                                </ul>
+
+                            </div>
+                        </div>
+
+
+                    </nav>
+
+
+                    <div class="container">
+
+
+
+
+
+                        <div align = "center" id="form-table">
+                            <div class="heading">
+
+                            </div>
+
+                            <table class="table table-condensed">
+                                <h2 th:text="#{history.view.page.gridheading}">[Report Details]</h2>
+
+                                <tr>
+                                    <td class="td-label">
+                                        <div th:text="#{history.label.id}">[TYPE ID]</div>
+                                    </td>
+                                    <td>
+                                        <div th:text="${history.settleId}"></div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="td-label">
+                                        <div th:text="#{history.label.type}">[Type]</div>
+                                    </td>
+                                    <td>
+                                        <div th:text="${history.type}"></div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="td-label">
+                                        <div th:text="#{history.label.subject}">[Subject]</div>
+                                    </td>
+                                    <td>
+                                        <div th:text="${history.subject}"></div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="td-label">
+                                        <div th:text="#{history.label.description}">[Description]</div>
+                                    </td>
+                                    <td>
+                                        <div th:text="${history.description}"></div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="td-label">
+                                        <div th:text="#{history.label.date}">[Date]</div>
+                                    </td>
+                                    <td>
+                                        <div th:text="${history.date}"></div>
+                                    </td>
+                                </tr>
+
+                                <tr th:if="${history.hasLocation()}" class="locationRow">
+                                    <td class="td-label">
+                                        <div th:text="#{history.label.location}">[Location]</div>
+
+                                    </td>
+                                    <td>
+
+                                        <div id="googleMap" style=" height: 400px;"></div>
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td class="td-label">
+                                        <div th:text="#{history.label.name}">[NAME]</div>
+                                    </td>
+                                    <td>
+                                        <div th:text="${user.name} + ' ' + ${user.lastName}"></div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-label">
+                                        <div th:text="#{history.label.email}">[EMAIL]</div>                                    </td>
+                                    <td>
+                                        <div th:text="${user.email}"></div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-label">
+                                        <div th:text="#{history.label.phone}">[PHONE]</div>
+                                    </td>
+                                    <td>
+                                        <div th:text="${user.phone}"></div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+              <td class="td-label">
+                                       
+                                    </td>
+                                    <td>
+                                        <form th:action="@{/admin/home}" method="get">
+                                            <button  class="btn btn-md btn-danger btn-block" 
+                                                     type="Submit">Back</button>
+                                        </form> 
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+
+
+
+
+                    </div>
+                </body>
+                </html>

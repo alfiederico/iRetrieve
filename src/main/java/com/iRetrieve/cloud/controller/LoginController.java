@@ -45,6 +45,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 @Controller
 public class LoginController {
@@ -318,8 +319,10 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
-        modelAndView.addObject("adminMessage", "Instructions goes here");
+        modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");        
+        if(model.asMap().get("adminMessage") == null){
+            modelAndView.addObject("adminMessage", "Instructions goes here");
+        }            
         modelAndView.setViewName("admin/home");
         model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
         model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());

@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  *
@@ -69,8 +71,8 @@ public class HotspotController {
     }
 
     @RequestMapping(value = "/hotspot", method = RequestMethod.POST)
-    public ModelAndView createNewHotspot(@Valid Hotspot hotspot, BindingResult bindingResult, Model model) {
-        ModelAndView modelAndView = new ModelAndView();
+    public ModelAndView createNewHotspot(@Valid Hotspot hotspot, BindingResult bindingResult, Model model, RedirectAttributes ra) {
+        ModelAndView modelAndView = new ModelAndView(new RedirectView("/admin/home"));
 
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("hotspot");
@@ -87,20 +89,15 @@ public class HotspotController {
             }
 
             hotspotService.saveHotspot(hotspot);
-            modelAndView.addObject("adminMessage", "Hotspot has been created successfully");
-            model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
-            model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
-            model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
-            model.addAttribute("hotspots", hotspotService.findAllByOrderByIdAsc());
-            modelAndView.setViewName("/admin/home");
+            ra.addFlashAttribute("adminMessage", "HOTSPOT HAS BEEN CREATED SUCCESSFULLY");
 
         }
         return modelAndView;
     }
     
         @RequestMapping(value = "/hotspotget", method = RequestMethod.POST)
-    public ModelAndView updateHotspot(@Valid Hotspot hotspot, BindingResult bindingResult, Model model) {
-        ModelAndView modelAndView = new ModelAndView();
+    public ModelAndView updateHotspot(@Valid Hotspot hotspot, BindingResult bindingResult, Model model,  RedirectAttributes ra) {
+        ModelAndView modelAndView = new ModelAndView(new RedirectView("/admin/home"));
 
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("hotspotupdate");
@@ -124,12 +121,8 @@ public class HotspotController {
             
 
             hotspotService.saveHotspot(hotspotupdate);
-            modelAndView.addObject("adminMessage", "Hotspot has been created successfully");
-            model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
-            model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
-            model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
-            model.addAttribute("hotspots", hotspotService.findAllByOrderByIdAsc());
-            modelAndView.setViewName("/admin/home");
+            ra.addFlashAttribute("adminMessage", "HOTSPOT HAS BEEN UPDATED SUCCESSFULLY");
+
 
         }
         return modelAndView;

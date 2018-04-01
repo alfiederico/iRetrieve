@@ -15,6 +15,7 @@ import com.iRetrieve.cloud.service.ReportService;
 import com.iRetrieve.cloud.service.UserService;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.validation.Valid;
@@ -30,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  *
@@ -168,10 +171,11 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/report", method = RequestMethod.POST)
-    public ModelAndView createNewReport(@Valid Report report, BindingResult bindingResult, Model model) {
-        ModelAndView modelAndView = new ModelAndView();
+    public ModelAndView createNewReport(@Valid Report report, BindingResult bindingResult, Model model, RedirectAttributes ra) {
+        ModelAndView modelAndView = null;
 
         if (bindingResult.hasErrors()) {
+            modelAndView = new ModelAndView();
             modelAndView.setViewName("report");
         } else {
 
@@ -194,16 +198,30 @@ public class ReportController {
                         = new java.text.SimpleDateFormat("dd-mm-yyyy HH:mm:ss");
 
                 try {
-                    report.setDate(sdf.format(sdf.parse(report.getDate())));
+                    Date date = (sdf.parse(report.getDate()));
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(date);
+                    int year = cal.get(Calendar.YEAR);
+                    int month = cal.get(Calendar.MONTH);
+                    int day = cal.get(Calendar.DAY_OF_MONTH);
+                    
+                    String sDate = day + "-" + month + "-" + year;
+
+                    //report.setDate(sdf.format(sdf.parse(report.getDate())));
+                    report.setDate(sDate);
                     report.setDate_created(sdf.format(new java.util.Date()));
                     report.setLast_updated(sdf.format(new java.util.Date()));
                 } catch (Exception ex) {
-
+                    String[] dates = report.getDate().split("-");
+                    String date = Integer.parseInt(dates[2]) + "-" + Integer.parseInt(dates[1]) + "-" + dates[0];
+                    report.setDate(date);
+                    report.setDate_created(date);
+                    report.setLast_updated(date);
                 }
 
                 String[] current = report.getLocation().split(",");
                 boolean bFlag = true;
-                
+
                 if (reports.size() > 0) {
                     for (Report f : reports) {
                         String[] currentF = f.getLocation().split(",");
@@ -231,13 +249,11 @@ public class ReportController {
                 report.setIsettle(0);
                 report.setUsettle(0);
                 reportService.saveReport(report);
-                modelAndView.addObject("adminMessage", "Report has been created successfully");
-                model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
-                model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
-                model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
-                model.addAttribute("hotspots", hotspotService.findAllByOrderByIdAsc());
-                modelAndView.setViewName("/admin/home");
+                modelAndView = new ModelAndView(new RedirectView("/admin/home"));
+                ra.addFlashAttribute("adminMessage", "REPORT HAS BEEN CREATED SUCCESSFULLY");
+
             } else {
+                modelAndView = new ModelAndView();
                 modelAndView.addObject("successMessage", "Please settle previous report before add new one");
                 modelAndView.addObject("report", new Report());
                 modelAndView.setViewName("report");
