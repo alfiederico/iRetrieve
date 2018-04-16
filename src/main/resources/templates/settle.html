@@ -19,7 +19,7 @@
                     <nav style = "background-color: #1B435D;" class="navbar navbar-light navbar-static-top"> 
                         <div class="container">
                             <div class="navbar-header">
-                                <a href="#" class ="navbar-brand">  <span th:utext="${userName}"></span> </a>
+                                <a th:href = "@{/setting}" method="get" class ="navbar-brand">  <span th:utext="${userName}"></span> </a>
                                 <button type = "button" class="navbar-toggle" style = "background-color: #21273D;" data-toggle = "collapse" data-target = "#navHeaderCollapse">
                                     <span style="background-color: #EAB4F8;" class="icon-bar"></span>
                                     <span style="background-color: #EAB4F8;" class="icon-bar"></span>
@@ -37,8 +37,8 @@
                                     <li>
                                         <a th:href = "@{/hotspot}" method="get"> HOTSPOT</a>
                                     </li>
-                                    <li><a th:href = "@{/logout}" method = "get" >SETTING</a></li>
-                                    <li><a th:href = "@{/logout}" method = "get"  >LOG OUT</a></li>
+                                    <li><a th:href = "@{/setting}" method = "get" >SETTING</a></li>
+                                    <li><a th:href = "@{/logout}" method= "get"  >LOG OUT</a></li>
 
 
 
@@ -54,106 +54,105 @@
                     <div class="container">
 
 
+                        <div align="center" >
 
 
+                            <div align = "center" id="form-table" class="row">
+                                <div class="heading">
 
-                        <div align = "center" id="form-table">
-                            <div class="heading">
+                                </div>
 
+                                <table class="table table-condensed">
+                                    <h2 th:text="#{report.view.page.gridheading}">[Report Details]</h2>
+
+                                    <tr>
+                                        <td class="td-label">
+                                            <div th:text="#{report.label.id}">[TYPE ID]</div>
+                                        </td>
+                                        <td>
+                                            <div th:text="${report.id}"></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="td-label">
+                                            <div th:text="#{report.label.type}">[Type]</div>
+                                        </td>
+                                        <td>
+                                            <div th:text="${report.type}"></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="td-label">
+                                            <div th:text="#{report.label.subject}">[Subject]</div>
+                                        </td>
+                                        <td>
+                                            <div th:text="${report.subject}"></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="td-label">
+                                            <div th:text="#{report.label.description}">[Description]</div>
+                                        </td>
+                                        <td>
+                                            <div th:text="${report.description}"></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="td-label">
+                                            <div th:text="#{report.label.date}">[Date]</div>
+                                        </td>
+                                        <td>
+                                            <div th:text="${report.date}"></div>
+                                        </td>
+                                    </tr>
+
+                                    <tr th:if="${report.hasLocation()}" class="locationRow">
+                                        <td class="td-label">
+                                            <div th:text="#{report.label.location}">[Location]</div>
+
+                                        </td>
+                                        <td>
+
+                                            <div id="googleMap" style=" height: 400px;"></div>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td class="td-label">
+                                            <div th:text="#{report.label.isettle}">[Found]</div>
+                                        </td>
+                                        <td>
+
+                                            <form th:action="@{/settle}" method="post">
+
+                                                <input id="place" name="paramName" type="text" th:value="${report.isettle}" placeholder="Lost/Found ID"
+                                                       class="form-control" />
+
+                                                <button  style= "margin-top:5px;" class="btn btn-md btn-primary btn-block" name="registration"
+                                                         type="Submit">Settle</button>
+                                            </form>
+
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                        </td>
+                                        <td>
+                                            <form th:action="@{/admin/home}" method="get">
+                                                <button  class="btn btn-md btn-danger btn-block" name="registration"
+                                                         type="Submit">Back</button>
+                                            </form> 
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-
-                            <table class="table table-condensed">
-                                <h2 th:text="#{report.view.page.gridheading}">[Report Details]</h2>
-
-                                <tr>
-                                    <td class="td-label">
-                                        <div th:text="#{report.label.id}">[TYPE ID]</div>
-                                    </td>
-                                    <td>
-                                        <div th:text="${report.id}"></div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="td-label">
-                                        <div th:text="#{report.label.type}">[Type]</div>
-                                    </td>
-                                    <td>
-                                        <div th:text="${report.type}"></div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="td-label">
-                                        <div th:text="#{report.label.subject}">[Subject]</div>
-                                    </td>
-                                    <td>
-                                        <div th:text="${report.subject}"></div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="td-label">
-                                        <div th:text="#{report.label.description}">[Description]</div>
-                                    </td>
-                                    <td>
-                                        <div th:text="${report.description}"></div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="td-label">
-                                        <div th:text="#{report.label.date}">[Date]</div>
-                                    </td>
-                                    <td>
-                                        <div th:text="${report.date}"></div>
-                                    </td>
-                                </tr>
-
-                                <tr th:if="${report.hasLocation()}" class="locationRow">
-                                    <td class="td-label">
-                                        <div th:text="#{report.label.location}">[Location]</div>
-
-                                    </td>
-                                    <td>
-
-                                        <div id="googleMap" style=" height: 400px;"></div>
-                                    </td>
-                                </tr>
-
-
-                                <tr>
-                                    <td class="td-label">
-                                        <div th:text="#{report.label.isettle}">[Found]</div>
-                                    </td>
-                                    <td>
-
-                                        <form th:action="@{/settle}" method="post">
-
-                                            <input id="place" name="paramName" type="text" th:value="${report.isettle}" placeholder="Lost/Found ID"
-                                                   class="form-control" />
-
-                                            <button  style= "margin-top:5px;" class="btn btn-md btn-primary btn-block" name="registration"
-                                                     type="Submit">Settle</button>
-                                        </form>
-
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                    </td>
-                                    <td>
-                                        <form th:action="@{/admin/home}" method="get">
-                                            <button  class="btn btn-md btn-danger btn-block" name="registration"
-                                                     type="Submit">Back</button>
-                                        </form> 
-                                    </td>
-                                </tr>
-                            </table>
                         </div>
-
-
 
 
 

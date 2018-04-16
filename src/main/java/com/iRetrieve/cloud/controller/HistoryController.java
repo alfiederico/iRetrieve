@@ -64,12 +64,18 @@ public class HistoryController {
             }
         }
 
-        ModelAndView modelAndView = null;
+        ModelAndView  modelAndView = new ModelAndView();
 
         if (arrHistory2.size() < 1) {
-            modelAndView = new ModelAndView(new RedirectView("/admin/home"));
-            ra.addFlashAttribute("adminMessage", "HISTORY ITEM NOT FOUND. SETTLE ITEM FIRST.");
+            model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
+            model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
+            model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
+            model.addAttribute("hotspots", hotspotService.findAllByOrderByIdAsc());
 
+            modelAndView.addObject("adminMessage", "HISTORY ITEM NOT FOUND. SETTLE ITEM FIRST.");
+            
+            modelAndView.setViewName("/admin/home");
+                     
         } else{ 
             modelAndView = new ModelAndView();
             modelAndView.setViewName("history");

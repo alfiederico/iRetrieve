@@ -55,207 +55,207 @@
 
                     </nav>
 
+                    <div class="container">
+                        <div class="panel-group" style="margin-top:40px">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <span th:utext="'ADMINISTRATOR - (' + ${adminMessage} + ')'"></span>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="wrapper center-block">
+                                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading active" role="tab" id="headingOne">
+                                                    <h4 class="panel-title">
+                                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                            USER
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                                    <div class="panel-body">
+                                                        <div align = "center" id="form-table">
+                                                            <div class="heading">
 
-                    <div class="panel-group" style="margin-top:40px">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <span th:utext="'ADMINISTRATOR - (' + ${adminMessage} + ')'"></span>
-                            </div>
-                            <div class="panel-body">
-                                <div class="wrapper center-block">
-                                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading active" role="tab" id="headingOne">
-                                                <h4 class="panel-title">
-                                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                        USER
-                                                    </a>
-                                                </h4>
-                                            </div>
-                                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                                <div class="panel-body">
-                                                    <div align = "center" id="form-table">
-                                                        <div class="heading">
+                                                            </div>
 
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>ID</th>
+
+                                                                        <th>EMAIL</th>
+                                                                        <th>NAME</th>
+
+                                                                        <th>LAST NAME</th>
+                                                                        <th>PHONE</th>
+                                                                        <th>ACTIVE</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr th:each="user,iterationStatus  : ${users}">
+                                                                        <td th:text="${user.userId}"></td>
+
+                                                                        <td th:text="${user.email}"></td>
+                                                                        <td th:text="${user.name}"></td>
+
+                                                                        <td th:text="${user.lastName}"></td>
+                                                                        <td th:text="${user.phone}"></td>
+                                                                        <td th:text="${user.active}"></td>
+
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
-
-                                                        <table class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>ID</th>
-
-                                                                    <th>EMAIL</th>
-                                                                    <th>NAME</th>
-
-                                                                    <th>LAST NAME</th>
-                                                                    <th>PHONE</th>
-                                                                    <th>ACTIVE</th>
-
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr th:each="user,iterationStatus  : ${users}">
-                                                                    <td th:text="${user.userId}"></td>
-
-                                                                    <td th:text="${user.email}"></td>
-                                                                    <td th:text="${user.name}"></td>
-
-                                                                    <td th:text="${user.lastName}"></td>
-                                                                    <td th:text="${user.phone}"></td>
-                                                                    <td th:text="${user.active}"></td>
-
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" role="tab" id="headingTwo">
-                                                <h4 class="panel-title">
-                                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                        REPORT
-                                                    </a>
-                                                </h4>
-                                            </div>
-                                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                                <div class="panel-body">
-                                                    <div align = "center" id="form-table">
-                                                        <div class="heading">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" role="tab" id="headingTwo">
+                                                    <h4 class="panel-title">
+                                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                            REPORT
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                    <div class="panel-body">
+                                                        <div align = "center" id="form-table">
+                                                            <div class="heading">
 
+                                                            </div>
+
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>ID</th>
+
+                                                                        <th>TYPE</th>
+                                                                        <th>SUBJECT</th>
+
+                                                                        <th>DESCRIPTION</th>
+                                                                        <th>DATE</th>
+                                                                        <th>PLACE</th>
+                                                                        <th>CONTACT</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr th:each="report,iterationStatus  : ${reports}">
+                                                                        <td th:text="${report.id}"></td>
+
+                                                                        <td th:text="${report.type}"></td>
+                                                                        <td th:text="${report.subject}"></td>
+
+                                                                        <td th:text="${report.description}"></td>
+                                                                        <td th:text="${report.date}"></td>
+                                                                        <td th:text="${report.place}"></td>
+                                                                        <td th:text="${report.contact}"></td>
+
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
-
-                                                        <table class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>ID</th>
-
-                                                                    <th>TYPE</th>
-                                                                    <th>SUBJECT</th>
-
-                                                                    <th>DESCRIPTION</th>
-                                                                    <th>DATE</th>
-                                                                    <th>PLACE</th>
-                                                                    <th>CONTACT</th>
-
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr th:each="report,iterationStatus  : ${reports}">
-                                                                    <td th:text="${report.id}"></td>
-
-                                                                    <td th:text="${report.type}"></td>
-                                                                    <td th:text="${report.subject}"></td>
-
-                                                                    <td th:text="${report.description}"></td>
-                                                                    <td th:text="${report.date}"></td>
-                                                                    <td th:text="${report.place}"></td>
-                                                                    <td th:text="${report.contact}"></td>
-
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" role="tab" id="headingThree">
-                                                <h4 class="panel-title">
-                                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                        HISTORY
-                                                    </a>
-                                                </h4>
-                                            </div>
-                                            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                                                <div class="panel-body">
-                                                    <div align = "center" id="form-table">
-                                                        <div class="heading">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" role="tab" id="headingThree">
+                                                    <h4 class="panel-title">
+                                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                            HISTORY
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                                    <div class="panel-body">
+                                                        <div align = "center" id="form-table">
+                                                            <div class="heading">
 
+                                                            </div>
+
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+
+                                                                        <th>REFERENCE ID</th>
+                                                                        <th>TYPE</th>
+                                                                        <th>DATE</th>
+                                                                        <th>SUBJECT</th>
+                                                                        <th>DESCRIPTION</th>
+                                                                        <th>PLACE</th>
+
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr th:each="history,iterationStatus  : ${histories}">
+
+                                                                        <td><a th:href="@{/historyget?id=}+${history.id}" method="get" th:text="${history.settleId}"></a></td>
+                                                                        <td th:text="${history.type}"></td>
+                                                                        <td th:text="${history.date}"></td>
+                                                                        <td th:text="${history.subject}"></td>
+                                                                        <td th:text="${history.description}"></td>
+                                                                        <td th:text="${history.place}"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
-
-                                                        <table class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    
-                                                                    <th>REFERENCE ID</th>
-                                                                    <th>TYPE</th>
-                                                                    <th>DATE</th>
-                                                                    <th>SUBJECT</th>
-                                                                    <th>DESCRIPTION</th>
-                                                                    <th>PLACE</th>
-
-
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr th:each="history,iterationStatus  : ${histories}">
-                                                                    
-                                                                    <td><a th:href="@{/historyget?id=}+${history.id}" method="get" th:text="${history.settleId}"></a></td>
-                                                                    <td th:text="${history.type}"></td>
-                                                                    <td th:text="${history.date}"></td>
-                                                                    <td th:text="${history.subject}"></td>
-                                                                    <td th:text="${history.description}"></td>
-                                                                    <td th:text="${history.place}"></td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading" role="tab" id="headingThree">
-                                                <h4 class="panel-title">
-                                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                                        HOTSPOT
-                                                    </a>
-                                                </h4>
-                                            </div>
-                                            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-                                                <div class="panel-body">
-                                                    <div align = "center" id="form-table">
-                                                        <div class="heading">
 
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" role="tab" id="headingThree">
+                                                    <h4 class="panel-title">
+                                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                            HOTSPOT
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                                                    <div class="panel-body">
+                                                        <div align = "center" id="form-table">
+                                                            <div class="heading">
+
+                                                            </div>
+
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>ID</th>
+
+                                                                        <th>NAME</th>
+                                                                        <th>PLACE</th>
+
+                                                                        <th>CONTACT</th>>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr th:each="hotspot,iterationStatus  : ${hotspots}">
+                                                                        <td><a th:href="@{/hotspotget?id=}+${hotspot.id}" method="get" th:text="${hotspot.id}"></a></td>
+
+                                                                        <td th:text="${hotspot.name}"></td>
+                                                                        <td th:text="${hotspot.place}"></td>
+
+                                                                        <td th:text="${hotspot.contact}"></td>                                                   
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
-
-                                                        <table class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>ID</th>
-
-                                                                    <th>NAME</th>
-                                                                    <th>PLACE</th>
-
-                                                                    <th>CONTACT</th>>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr th:each="hotspot,iterationStatus  : ${hotspots}">
-                                                                    <td><a th:href="@{/hotspotget?id=}+${hotspot.id}" method="get" th:text="${hotspot.id}"></a></td>
-
-                                                                    <td th:text="${hotspot.name}"></td>
-                                                                    <td th:text="${hotspot.place}"></td>
-
-                                                                    <td th:text="${hotspot.contact}"></td>                                                   
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
+
+
                                         </div>
-                                        
-                                        
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
-
 
 
 

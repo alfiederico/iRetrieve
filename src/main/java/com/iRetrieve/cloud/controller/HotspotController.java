@@ -72,7 +72,7 @@ public class HotspotController {
 
     @RequestMapping(value = "/hotspot", method = RequestMethod.POST)
     public ModelAndView createNewHotspot(@Valid Hotspot hotspot, BindingResult bindingResult, Model model, RedirectAttributes ra) {
-        ModelAndView modelAndView = new ModelAndView(new RedirectView("/admin/home"));
+        ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("hotspot");
@@ -89,7 +89,15 @@ public class HotspotController {
             }
 
             hotspotService.saveHotspot(hotspot);
-            ra.addFlashAttribute("adminMessage", "HOTSPOT HAS BEEN CREATED SUCCESSFULLY");
+            
+            model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
+            model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
+            model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
+            model.addAttribute("hotspots", hotspotService.findAllByOrderByIdAsc());
+
+            modelAndView.addObject("adminMessage", "HOTSPOT HAS BEEN CREATED SUCCESSFULLY");
+            
+            modelAndView.setViewName("/admin/home");            
 
         }
         return modelAndView;
@@ -97,7 +105,7 @@ public class HotspotController {
     
         @RequestMapping(value = "/hotspotget", method = RequestMethod.POST)
     public ModelAndView updateHotspot(@Valid Hotspot hotspot, BindingResult bindingResult, Model model,  RedirectAttributes ra) {
-        ModelAndView modelAndView = new ModelAndView(new RedirectView("/admin/home"));
+        ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("hotspotupdate");
@@ -121,7 +129,15 @@ public class HotspotController {
             
 
             hotspotService.saveHotspot(hotspotupdate);
-            ra.addFlashAttribute("adminMessage", "HOTSPOT HAS BEEN UPDATED SUCCESSFULLY");
+
+            model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
+            model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
+            model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
+            model.addAttribute("hotspots", hotspotService.findAllByOrderByIdAsc());
+
+            modelAndView.addObject("adminMessage", "HOTSPOT HAS BEEN UPDATED SUCCESSFULLY");
+            
+            modelAndView.setViewName("/admin/home");   
 
 
         }

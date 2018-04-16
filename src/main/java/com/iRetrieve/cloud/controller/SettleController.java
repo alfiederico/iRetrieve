@@ -55,15 +55,19 @@ public class SettleController {
         User user = userService.findUserByEmail(auth.getName());
         Report report = reportService.findByUserId(user.getUserId());
 
-        ModelAndView modelAndView = null;
+        ModelAndView modelAndView = new ModelAndView();
 
         if (report == null) {
-            modelAndView = new ModelAndView(new RedirectView("/admin/home"));
-            ra.addFlashAttribute("adminMessage", "REPORT ITEM NOT FOUND. PLEASE REPORT ITEM FIRST.");
-   
+
+            model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
+            model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
+            model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
+            model.addAttribute("hotspots", hotspotService.findAllByOrderByIdAsc());
+
+            modelAndView.addObject("adminMessage", "REPORT ITEM NOT FOUND. PLEASE REPORT ITEM FIRST.");
+            modelAndView.setViewName("/admin/home");
 
         } else {
-            modelAndView = new ModelAndView();
             modelAndView.setViewName("settle");
             model.addAttribute("report", report);
         }
@@ -201,8 +205,8 @@ public class SettleController {
         Report report = reportService.findByUserId(user.getUserId());
         Report reportB = reportService.findById(Integer.parseInt(id));
         report.setIsettle(Integer.parseInt(id));
-        
-        ModelAndView modelAndView = new ModelAndView(new RedirectView("/admin/home"));
+
+        ModelAndView modelAndView = new ModelAndView();
 
         boolean bSettle = false;
         if (reportB != null) {
@@ -258,11 +262,17 @@ public class SettleController {
         }
 
         if (bSettle == true) {
-            ra.addFlashAttribute("adminMessage", "REPORT ITEM ALREADY SETTLE. DETAILS GO TO HISTORY");
+            modelAndView.addObject("adminMessage", "REPORT ITEM ALREADY SETTLE. DETAILS GO TO HISTORY");
         } else {
-            ra.addFlashAttribute("adminMessage", "PLEASE WAIT FOR OTHER PARTY TO SETTLE");
+            modelAndView.addObject("adminMessage", "PLEASE WAIT FOR OTHER PARTY TO SETTLE");
         }
 
+        model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
+        model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
+        model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
+        model.addAttribute("hotspots", hotspotService.findAllByOrderByIdAsc());
+
+        modelAndView.setViewName("/admin/home");
 
         return modelAndView;
     }

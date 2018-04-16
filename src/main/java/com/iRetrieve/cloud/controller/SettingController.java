@@ -7,6 +7,9 @@ package com.iRetrieve.cloud.controller;
 
 import com.iRetrieve.cloud.domain.Report;
 import com.iRetrieve.cloud.domain.User;
+import com.iRetrieve.cloud.service.HistoryService;
+import com.iRetrieve.cloud.service.HotspotService;
+import com.iRetrieve.cloud.service.ReportService;
 import com.iRetrieve.cloud.service.UserService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +36,16 @@ import org.springframework.web.servlet.view.RedirectView;
 public class SettingController {
 
     @Autowired
+    private ReportService reportService;
+
+    @Autowired
     private UserService userService;
+
+    @Autowired
+    private HistoryService historyService;
+
+    @Autowired
+    private HotspotService hotspotService;
 
     @RequestMapping(value = {"/setting"}, method = RequestMethod.GET)
     public ModelAndView settle(Model model) {
@@ -82,8 +94,8 @@ public class SettingController {
     }
 
     @RequestMapping(value = "/setting", method = RequestMethod.POST)
-    public ModelAndView updateUser(@Valid User user, BindingResult bindingResult, RedirectAttributes ra) {
-        ModelAndView modelAndView = null;
+    public ModelAndView updateUser(@Valid User user, BindingResult bindingResult, Model model) {
+        ModelAndView modelAndView = new ModelAndView();
 
         User userExists = userService.findUserByEmail(user.getEmail());
 
@@ -97,12 +109,17 @@ public class SettingController {
         userExists.setRadius(user.getRadius());
 
         if (bindingResult.hasErrors()) {
-            modelAndView = new ModelAndView();
-            modelAndView.setViewName("registration");
+            modelAndView.setViewName("setting");
         } else {
             userService.saveUser(userExists);
-            modelAndView = new ModelAndView(new RedirectView("/admin/home"));
-            ra.addFlashAttribute("adminMessage", "PERSONAL DETAILS UPDATED");
+            
+            modelAndView.addObject("adminMessage", "PERSONAL DETAILS UPDATED");
+            model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
+            model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
+            model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
+            model.addAttribute("hotspots", hotspotService.findAllByOrderByIdAsc());
+
+            modelAndView.setViewName("/admin/home");
 
         }
         return modelAndView;

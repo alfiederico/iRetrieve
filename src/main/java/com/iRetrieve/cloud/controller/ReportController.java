@@ -172,10 +172,9 @@ public class ReportController {
 
     @RequestMapping(value = "/report", method = RequestMethod.POST)
     public ModelAndView createNewReport(@Valid Report report, BindingResult bindingResult, Model model, RedirectAttributes ra) {
-        ModelAndView modelAndView = null;
+        ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
-            modelAndView = new ModelAndView();
             modelAndView.setViewName("report");
         } else {
 
@@ -204,7 +203,7 @@ public class ReportController {
                     int year = cal.get(Calendar.YEAR);
                     int month = cal.get(Calendar.MONTH);
                     int day = cal.get(Calendar.DAY_OF_MONTH);
-                    
+
                     String sDate = day + "-" + month + "-" + year;
 
                     //report.setDate(sdf.format(sdf.parse(report.getDate())));
@@ -249,11 +248,17 @@ public class ReportController {
                 report.setIsettle(0);
                 report.setUsettle(0);
                 reportService.saveReport(report);
-                modelAndView = new ModelAndView(new RedirectView("/admin/home"));
-                ra.addFlashAttribute("adminMessage", "REPORT HAS BEEN CREATED SUCCESSFULLY");
+
+                model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
+                model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
+                model.addAttribute("histories", historyService.findAllByOrderByUserIdAsc());
+                model.addAttribute("hotspots", hotspotService.findAllByOrderByIdAsc());
+
+                modelAndView.addObject("adminMessage", "REPORT HAS BEEN CREATED SUCCESSFULLY");
+
+                modelAndView.setViewName("/admin/home");
 
             } else {
-                modelAndView = new ModelAndView();
                 modelAndView.addObject("successMessage", "Please settle previous report before add new one");
                 modelAndView.addObject("report", new Report());
                 modelAndView.setViewName("report");
