@@ -109,6 +109,7 @@ public class ReportController {
                             String[] currentG = g.getLocation().split(",");
                             if (distance(Double.parseDouble(current[0]), Double.parseDouble(current[1]), Double.parseDouble(currentG[0]), Double.parseDouble(currentG[1]), 'K') <= 1) {
                                 report.setLocation(g.getLocation());
+                                report.setCategory("hotspot");
                                 break;
                             }
                         }

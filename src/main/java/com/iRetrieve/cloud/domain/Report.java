@@ -95,6 +95,9 @@ public class Report {
     @Column(name = "photo")
     private String photo;
     
+    @Column(name = "category")
+    private String category;
+    
     public String getContact() {
         return contact;
     }
@@ -247,6 +250,20 @@ public class Report {
      */
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    /**
+     * @return the group
+     */
+    public String getCategory() {
+        return category;
+    }
+
+    /**
+     * @param group the group to set
+     */
+    public void setCategory(String category) {
+        this.category = category;
     }
 
 }
