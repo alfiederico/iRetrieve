@@ -313,9 +313,10 @@ public class LoginController {
                     InternetAddress.parse(recipientAddress));
             message.setSubject(subject);
 
-            String content = "To complete and confirm your registration for IRetrieve, you’ll need to verify your email address. To do so, please click the link below: " + "\n\n" + confirmationUrl + "\n\n\n";
-            content += "Best regards, \nalfred federico";
-            message.setText(content);
+            String content = "To complete and confirm your registration for IRetrieve, you will need to verify your email address. To do so, please click the link below: " + "<br /><br /><a href=\"" + confirmationUrl + "\">Confirmed</a><br /><br /><br />";
+            content += "Best regards, <br />alfred federico";
+
+            message.setContent(content, "text/html");
 
             Transport.send(message);
 
