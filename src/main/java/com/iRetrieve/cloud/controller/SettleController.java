@@ -126,8 +126,13 @@ public class SettleController {
             Report report = reportService.findByUserId(Integer.parseInt(userid));
             Report reportB = reportService.findById(Integer.parseInt(isettle));
 
+            if (report == null) {
+                return new Message(3, "You have to Report first before you can settle", 0);
+            }
+
             if (report.getId() == reportB.getId()) {
-                return new Message(4, "settleid and reportid supplied cannot be the same.", 0);
+                reportService.deleteReport(report);
+                return new Message(1, "Report sucessfuly cancelled", 0);
             }
             if (Integer.parseInt(isettle) < 1) {
                 return new Message(5, "Lost/Found ID cannot be 0", 0);

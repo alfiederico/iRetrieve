@@ -91,7 +91,7 @@ public class ReportController {
                 String[] current = report.getLocation().split(",");
                 boolean bFlag = true;
 
-                if (reports.size() > 0) {
+                /**if (reports.size() > 0) {
                     for (Report f : reports) {
                         String[] currentF = f.getLocation().split(",");
                         if (distance(Double.parseDouble(current[0]), Double.parseDouble(current[1]), Double.parseDouble(currentF[0]), Double.parseDouble(currentF[1]), 'K') <= 1) {
@@ -100,14 +100,14 @@ public class ReportController {
                             break;
                         }
                     }
-                }
+                }**/
 
                 if (bFlag) {
                     List<Hotspot> hotspots = hotspotService.findAllByOrderByIdAsc();
                     if (hotspots.size() > 0) {
                         for (Hotspot g : hotspots) {
                             String[] currentG = g.getLocation().split(",");
-                            if (distance(Double.parseDouble(current[0]), Double.parseDouble(current[1]), Double.parseDouble(currentG[0]), Double.parseDouble(currentG[1]), 'K') <= 1) {
+                            if (distance(Double.parseDouble(current[0]), Double.parseDouble(current[1]), Double.parseDouble(currentG[0]), Double.parseDouble(currentG[1]), 'K') <= 0.10) {
                                 report.setLocation(g.getLocation());
                                 report.setCategory("hotspot");
                                 break;
@@ -222,7 +222,7 @@ public class ReportController {
                 String[] current = report.getLocation().split(",");
                 boolean bFlag = true;
 
-                if (reports.size() > 0) {
+                /**if (reports.size() > 0) {
                     for (Report f : reports) {
                         String[] currentF = f.getLocation().split(",");
                         if (distance(Double.parseDouble(current[0]), Double.parseDouble(current[1]), Double.parseDouble(currentF[0]), Double.parseDouble(currentF[1]), 'K') <= 1) {
@@ -231,7 +231,7 @@ public class ReportController {
                             break;
                         }
                     }
-                }
+                }**/
 
                 if (bFlag) {
                     List<Hotspot> hotspots = hotspotService.findAllByOrderByIdAsc();
