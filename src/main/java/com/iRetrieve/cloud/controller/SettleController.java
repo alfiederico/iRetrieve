@@ -161,6 +161,7 @@ public class SettleController {
                             a.setLocation(report.getLocation());
                             a.setSettleId(report.getIsettle());
                             a.setPlace(report.getPlace());
+                            a.setPhoto(report.getPhoto());
 
                             historyService.saveHistory(a);
 
@@ -174,6 +175,7 @@ public class SettleController {
                             b.setLocation(reportB.getLocation());
                             b.setSettleId(reportB.getIsettle());
                             b.setPlace(reportB.getPlace());
+                            b.setPhoto(report.getPhoto());
 
                             historyService.saveHistory(b);
 

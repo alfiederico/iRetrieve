@@ -66,6 +66,9 @@ public class LoginController {
     private Session emailSession;
     @Autowired
     private MessageSource messages;
+    
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public ModelAndView login() {
@@ -213,10 +216,12 @@ public class LoginController {
                     userExists.setName(user.getName());
                     userExists.setLastName(user.getLastName());
                     userExists.setEmail(user.getEmail());
-                    userExists.setPassword(user.getPassword());
+                    userExists.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
                     userService.saveUser(userExists);
                     userService.createVerificationToken(userExists, token);
                 } else {
+                    user.setToken(0);
+                    user.setPoints(0);
                     userService.registerNewUserAccount(user);
                     userService.createVerificationToken(user, token);
                 }
@@ -281,7 +286,7 @@ public class LoginController {
                 userExists.setName(user.getName());
                 userExists.setLastName(user.getLastName());
                 userExists.setEmail(user.getEmail());
-                userExists.setPassword(user.getPassword());
+                userExists.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
                 userService.saveUser(userExists);
                 userService.createVerificationToken(userExists, token);
             } else {
@@ -319,10 +324,10 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");        
-        if(model.asMap().get("adminMessage") == null){
+        modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
+        if (model.asMap().get("adminMessage") == null) {
             modelAndView.addObject("adminMessage", "Instructions goes here");
-        }            
+        }
         modelAndView.setViewName("admin/home");
         model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
         model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
@@ -360,6 +365,31 @@ public class LoginController {
         }
 
         return "redirect:/confirm";
+    }
+
+    @RequestMapping(value = "/mobile/registrationConfirm", method = RequestMethod.GET)
+    public @ResponseBody
+    Message mobileConfirmRegistration(@RequestParam("token") String token) {
+
+        VerificationToken verificationToken = userService.getVerificationToken(token);
+        if (verificationToken == null) {
+            return new Message(0, "Invalid token", 0);
+        }
+
+        User user = verificationToken.getUser();
+        Calendar cal = Calendar.getInstance();
+        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+            return new Message(0, "Token Expired", 0);
+        }
+        if (user.getActive() == true) {
+            return new Message(0, "User already active", 0);
+        } else {
+            user.setActive(true);
+            user.setRadius(50);
+            userService.saveUser(user);
+            return new Message(0, "Account activation successful", 0);
+        }
+
     }
 
 }

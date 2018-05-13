@@ -5,6 +5,7 @@
  */
 package com.iRetrieve.cloud.controller;
 
+import com.iRetrieve.cloud.domain.Message;
 import com.iRetrieve.cloud.domain.Report;
 import com.iRetrieve.cloud.domain.User;
 import com.iRetrieve.cloud.service.HistoryService;
@@ -93,6 +94,33 @@ public class SettingController {
 
     }
 
+    @RequestMapping(value = "/mobile/updateBalance", method = RequestMethod.GET)
+    public @ResponseBody
+    Message updateBalance(@RequestParam(value = "userid", required = true) String userid, @RequestParam(value = "total", required = true) int total, @RequestParam(value = "balance", required = true) String balance) {
+        User userExists = userService.findUserByUserId(Integer.parseInt(userid));
+        if (userExists != null) {
+            
+            int totalbalance = 0;
+            
+            if (balance.equals("token")) {
+                totalbalance = userExists.getToken();
+                totalbalance += total;
+                userExists.setToken(totalbalance);
+            } else {
+                totalbalance = userExists.getPoints();
+                totalbalance += total;
+                userExists.setPoints(totalbalance);
+            }
+
+            userService.saveUser(userExists);
+            return  new Message(0, "Your new token balance is " + totalbalance, 0);
+        } else {
+
+            return null;
+        }
+
+    }
+
     @RequestMapping(value = "/setting", method = RequestMethod.POST)
     public ModelAndView updateUser(@Valid User user, BindingResult bindingResult, Model model) {
         ModelAndView modelAndView = new ModelAndView();
@@ -112,7 +140,7 @@ public class SettingController {
             modelAndView.setViewName("setting");
         } else {
             userService.saveUser(userExists);
-            
+
             modelAndView.addObject("adminMessage", "PERSONAL DETAILS UPDATED");
             model.addAttribute("users", userService.findAllByOrderByUserIdAsc());
             model.addAttribute("reports", reportService.findAllByOrderByUserIdAsc());
