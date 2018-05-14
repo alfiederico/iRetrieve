@@ -53,6 +53,7 @@ public class SettingController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
 
+
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.setViewName("setting");
@@ -113,7 +114,7 @@ public class SettingController {
             }
 
             userService.saveUser(userExists);
-            return  new Message(0, "Your new token balance is " + totalbalance, 0);
+            return  new Message(0, "Your new " + balance + " balance is " + totalbalance, 0);
         } else {
 
             return null;

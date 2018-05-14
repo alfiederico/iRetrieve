@@ -179,6 +179,16 @@ public class SettleController {
 
                             historyService.saveHistory(b);
 
+                            if (report.getType().toUpperCase().equals("FOUND")) {
+                                User user = userService.findUserByUserId(report.getUserId());
+                                user.setPoints(user.getPoints() + 100);
+                                userService.saveUser(user);
+                            } else {
+                                User user = userService.findUserByUserId(reportB.getUserId());
+                                user.setPoints(user.getPoints() + 100);
+                                userService.saveUser(user);
+                            }
+
                             reportService.deleteReport(report);
                             reportService.deleteReport(reportB);
                         }
