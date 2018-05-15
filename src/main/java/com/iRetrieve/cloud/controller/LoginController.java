@@ -9,6 +9,9 @@ package com.iRetrieve.cloud.controller;
  *
  * @author Alfie
  */
+import com.iRetrieve.cloud.configuration.GeneratePdfReport;
+import com.iRetrieve.cloud.domain.History;
+import com.iRetrieve.cloud.domain.Hotspot;
 import com.iRetrieve.cloud.domain.Message;
 import com.iRetrieve.cloud.domain.Report;
 import javax.validation.Valid;
@@ -28,6 +31,8 @@ import com.iRetrieve.cloud.service.HistoryService;
 import com.iRetrieve.cloud.service.HotspotService;
 import com.iRetrieve.cloud.service.ReportService;
 import com.iRetrieve.cloud.service.UserService;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -46,6 +51,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.support.RequestContextUtils;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 
 @Controller
 public class LoginController {
@@ -66,7 +75,7 @@ public class LoginController {
     private Session emailSession;
     @Autowired
     private MessageSource messages;
-    
+
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -392,4 +401,72 @@ public class LoginController {
 
     }
 
+    @RequestMapping(value = "/userreport", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> usersReport() throws IOException {
+        List<User> users = (List<User>) userService.findAllByOrderByUserIdAsc();
+
+        ByteArrayInputStream bis = GeneratePdfReport.usersReport(users);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=User.pdf");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(bis));
+
+    }
+
+    @RequestMapping(value = "/reportreport", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> reportReport() throws IOException {
+        List<Report> report = (List<Report>) reportService.findAllByOrderByUserIdAsc();
+
+        ByteArrayInputStream bis = GeneratePdfReport.reportReport(report);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=Report.pdf");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(bis));
+
+    }
+
+    @RequestMapping(value = "/historyreport", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> historyReport() throws IOException {
+        List<History> history = (List<History>) historyService.findAllByOrderByUserIdAsc();
+        List<User> users = (List<User>) userService.findAllByOrderByUserIdAsc();
+
+        ByteArrayInputStream bis = GeneratePdfReport.historyReport(history, users);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=History.pdf");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(bis));
+
+    }
+
+    @RequestMapping(value = "/hotspotreport", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> hotspotReport() throws IOException {
+        List<Hotspot> hotspots = (List<Hotspot>) hotspotService.findAllByOrderByIdAsc();
+
+        ByteArrayInputStream bis = GeneratePdfReport.hotspotReport(hotspots);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=Hotspot.pdf");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(bis));
+
+    }
 }
