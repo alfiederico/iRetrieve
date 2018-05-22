@@ -37,8 +37,9 @@ public class GeneratePdfReport {
             table.setWidthPercentage(95);
             table.setWidths(new int[]{2, 8, 6, 6, 6, 3});
             table.setPaddingTop(10);
+            table.setSpacingBefore(20f);
 
-            Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+            Font headFont = FontFactory.getFont(FontFactory.COURIER);
 
             PdfPCell hcell;
             hcell = new PdfPCell(new Phrase("Id", headFont));
@@ -69,36 +70,36 @@ public class GeneratePdfReport {
 
                 PdfPCell cell;
 
-                cell = new PdfPCell(new Phrase(new Integer(user.getUserId()).toString()));
+                cell = new PdfPCell(new Phrase(new Integer(user.getUserId()).toString(), headFont));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(user.getEmail()));
+                cell = new PdfPCell(new Phrase(user.getEmail(), headFont));
                 cell.setPaddingLeft(5);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(user.getName()));
+                cell = new PdfPCell(new Phrase(user.getName(), headFont));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 cell.setPaddingRight(5);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(user.getLastName()));
+                cell = new PdfPCell(new Phrase(user.getLastName(), headFont));
                 cell.setPaddingLeft(5);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(user.getPhone()));
+                cell = new PdfPCell(new Phrase(user.getPhone(), headFont));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 cell.setPaddingRight(5);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(String.valueOf(user.getActive())));
+                cell = new PdfPCell(new Phrase(String.valueOf(user.getActive()), headFont));
                 cell.setPaddingLeft(5);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -106,10 +107,14 @@ public class GeneratePdfReport {
 
             }
 
-            PdfWriter.getInstance(document, out);
+            PdfWriter writer = PdfWriter.getInstance(document, out);
+
+            HeaderFooterPageEvent event = new HeaderFooterPageEvent("USER");
+            writer.setPageEvent(event);
+
             document.open();
-            document.add(new Paragraph(Element.ALIGN_CENTER,"USER"));
-            
+
+            document.add(new Paragraph(Element.ALIGN_CENTER, " "));
 
             document.add(table);
 
@@ -130,7 +135,9 @@ public class GeneratePdfReport {
             table.setWidthPercentage(95);
             table.setWidths(new int[]{2, 3, 3, 6, 5, 6, 5});
             table.setPaddingTop(10);
-            Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+            table.setSpacingBefore(20f);
+
+            Font headFont = FontFactory.getFont(FontFactory.COURIER);
 
             PdfPCell hcell;
             hcell = new PdfPCell(new Phrase("Id", headFont));
@@ -165,42 +172,42 @@ public class GeneratePdfReport {
 
                 PdfPCell cell;
 
-                cell = new PdfPCell(new Phrase(new Integer(report.getId()).toString()));
+                cell = new PdfPCell(new Phrase(new Integer(report.getId()).toString(), headFont));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(report.getType()));
+                cell = new PdfPCell(new Phrase(report.getType(), headFont));
                 cell.setPaddingLeft(5);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(report.getSubject()));
+                cell = new PdfPCell(new Phrase(report.getSubject(), headFont));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 cell.setPaddingRight(5);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(report.getDescription()));
+                cell = new PdfPCell(new Phrase(report.getDescription(), headFont));
                 cell.setPaddingLeft(5);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(report.getDate()));
+                cell = new PdfPCell(new Phrase(report.getDate(), headFont));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 cell.setPaddingRight(5);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(String.valueOf(report.getPlace())));
+                cell = new PdfPCell(new Phrase(String.valueOf(report.getPlace()), headFont));
                 cell.setPaddingLeft(5);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(String.valueOf(report.getContact())));
+                cell = new PdfPCell(new Phrase(String.valueOf(report.getContact()), headFont));
                 cell.setPaddingLeft(5);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -208,9 +215,14 @@ public class GeneratePdfReport {
 
             }
 
-            PdfWriter.getInstance(document, out);
+            PdfWriter writer = PdfWriter.getInstance(document, out);
+
+            HeaderFooterPageEvent event = new HeaderFooterPageEvent("REPORT");
+            writer.setPageEvent(event);
+
             document.open();
-            document.add(new Paragraph(Element.ALIGN_CENTER,"REPORT"));
+
+            document.add(new Paragraph(Element.ALIGN_CENTER, " "));
             document.add(table);
 
             document.close();
@@ -230,7 +242,9 @@ public class GeneratePdfReport {
             table.setWidthPercentage(95);
             table.setWidths(new int[]{2, 3, 3, 6, 4, 4, 6, 4, 4});
             table.setPaddingTop(10);
-            Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+            table.setSpacingBefore(20f);
+
+            Font headFont = FontFactory.getFont(FontFactory.COURIER);
 
             PdfPCell hcell;
             hcell = new PdfPCell(new Phrase("REF ID", headFont));
@@ -275,54 +289,54 @@ public class GeneratePdfReport {
                     if (history.getUserId() == user.getUserId()) {
                         PdfPCell cell;
 
-                        cell = new PdfPCell(new Phrase(new Integer(history.getSettleId()).toString()));
+                        cell = new PdfPCell(new Phrase(new Integer(history.getSettleId()).toString(), headFont));
                         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                         table.addCell(cell);
 
-                        cell = new PdfPCell(new Phrase(history.getType()));
+                        cell = new PdfPCell(new Phrase(history.getType(), headFont));
                         cell.setPaddingLeft(5);
                         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                         table.addCell(cell);
 
-                        cell = new PdfPCell(new Phrase(history.getSubject()));
+                        cell = new PdfPCell(new Phrase(history.getSubject(), headFont));
                         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                         cell.setPaddingRight(5);
                         table.addCell(cell);
 
-                        cell = new PdfPCell(new Phrase(history.getDescription()));
+                        cell = new PdfPCell(new Phrase(history.getDescription(), headFont));
                         cell.setPaddingLeft(5);
                         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                         table.addCell(cell);
 
-                        cell = new PdfPCell(new Phrase(history.getDate()));
+                        cell = new PdfPCell(new Phrase(history.getDate(), headFont));
                         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                         cell.setPaddingRight(5);
                         table.addCell(cell);
 
-                        cell = new PdfPCell(new Phrase(history.getLocation()));
+                        cell = new PdfPCell(new Phrase(history.getLocation(), headFont));
                         cell.setPaddingLeft(5);
                         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                         table.addCell(cell);
 
-                        cell = new PdfPCell(new Phrase(user.getName() + " " + user.getLastName()));
+                        cell = new PdfPCell(new Phrase(user.getName() + " " + user.getLastName(), headFont));
                         cell.setPaddingLeft(5);
                         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                         table.addCell(cell);
 
-                        cell = new PdfPCell(new Phrase(user.getEmail()));
+                        cell = new PdfPCell(new Phrase(user.getEmail(), headFont));
                         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                         cell.setPaddingRight(5);
                         table.addCell(cell);
 
-                        cell = new PdfPCell(new Phrase(user.getPhone()));
+                        cell = new PdfPCell(new Phrase(user.getPhone(), headFont));
                         cell.setPaddingLeft(5);
                         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -334,9 +348,14 @@ public class GeneratePdfReport {
 
             }
 
-            PdfWriter.getInstance(document, out);
+            PdfWriter writer = PdfWriter.getInstance(document, out);
+
+            HeaderFooterPageEvent event = new HeaderFooterPageEvent("HISTORY");
+            writer.setPageEvent(event);
+
             document.open();
-            document.add(new Paragraph(Element.ALIGN_CENTER,"HISTORY"));
+
+            document.add(new Paragraph(Element.ALIGN_CENTER, " "));
             document.add(table);
 
             document.close();
@@ -356,7 +375,9 @@ public class GeneratePdfReport {
             table.setWidthPercentage(95);
             table.setWidths(new int[]{2, 8, 8, 5});
             table.setPaddingTop(10);
-            Font headFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+            table.setSpacingBefore(20f);
+
+            Font headFont = FontFactory.getFont(FontFactory.COURIER);
 
             PdfPCell hcell;
             hcell = new PdfPCell(new Phrase("Id", headFont));
@@ -379,24 +400,24 @@ public class GeneratePdfReport {
 
                 PdfPCell cell;
 
-                cell = new PdfPCell(new Phrase(new Integer(hotspot.getId()).toString()));
+                cell = new PdfPCell(new Phrase(new Integer(hotspot.getId()).toString(), headFont));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(hotspot.getName()));
+                cell = new PdfPCell(new Phrase(hotspot.getName(), headFont));
                 cell.setPaddingLeft(5);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(hotspot.getPlace()));
+                cell = new PdfPCell(new Phrase(hotspot.getPlace(), headFont));
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 cell.setPaddingRight(5);
                 table.addCell(cell);
 
-                cell = new PdfPCell(new Phrase(hotspot.getContact()));
+                cell = new PdfPCell(new Phrase(hotspot.getContact(), headFont));
                 cell.setPaddingLeft(5);
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                 cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -404,9 +425,14 @@ public class GeneratePdfReport {
 
             }
 
-            PdfWriter.getInstance(document, out);
+            PdfWriter writer = PdfWriter.getInstance(document, out);
+
+            HeaderFooterPageEvent event = new HeaderFooterPageEvent("HOTSPOT");
+            writer.setPageEvent(event);
+
             document.open();
-            document.add(new Paragraph(Element.ALIGN_CENTER,"HOTSPOT"));
+
+            document.add(new Paragraph(Element.ALIGN_CENTER, " "));
             document.add(table);
 
             document.close();
