@@ -242,8 +242,6 @@ public class GeneratePdfReport {
             table.setWidthPercentage(95);
             table.setWidths(new int[]{2, 3, 3, 6, 4, 4, 6, 4, 4});
             table.setPaddingTop(10);
-            table.setSpacingBefore(120f);
-            
 
             Font headFont = FontFactory.getFont(FontFactory.COURIER);
 
@@ -354,6 +352,8 @@ public class GeneratePdfReport {
             HeaderFooterPageEvent event = new HeaderFooterPageEvent("HISTORY");
             writer.setPageEvent(event);
 
+            document.setMargins(10, 10, 180, 60);
+            
             document.open();
 
             document.add(new Paragraph(Element.ALIGN_CENTER, " "));

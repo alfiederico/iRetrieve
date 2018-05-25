@@ -21,6 +21,8 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class HeaderFooterPageEvent extends PdfPageEventHelper {
 
@@ -68,18 +70,20 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 
     public void onStartPage(PdfWriter writer, Document document) {
         try {
-            if (document.getPageNumber() <= 1) {
-                // step 4
-                Phrase p = new Phrase("");
-                p.add(new Chunk(Image.getInstance(readBytesFromFile()), 0, 0, true));
-                ColumnText ct = new ColumnText(writer.getDirectContent());
-                ct.setSimpleColumn(new Rectangle(50, 800, 200, 700));
+            // step 4
+            Phrase p = new Phrase("");
+            p.add(new Chunk(Image.getInstance(readBytesFromFile()), 0, 0, true));
+            ColumnText ct = new ColumnText(writer.getDirectContent());
+ //ct.setSimpleColumn(new Rectangle(50, 800, 200, 700));
+ct.setSimpleColumn(new Rectangle(150, 800, 300, 700));
 
-                ct.addText(p);
-                ct.go();
+            ct.addText(p);
 
-                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(sTitle), 300, 700, 0);
-            }
+            ct.go();
+
+            LocalDate localDate = LocalDate.now();
+            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, new Phrase(sTitle), 20, 700, 0);
+            ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_RIGHT, new Phrase("DATE : " + DateTimeFormatter.ofPattern("yyy/MM/dd").format(localDate)), 550, 700, 0);
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -87,8 +91,13 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
     }
 
     public void onEndPage(PdfWriter writer, Document document) {
-        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("http://alfiederico.com/iRetrieve-0.0.1/"), 110, 30, 0);
-        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("page " + document.getPageNumber()), 550, 30, 0);
+        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, new Phrase("Developed by:"), 20, 80, 0);
+        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, new Phrase("Alfred G. Federico"), 20, 60, 0);
+        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_LEFT, new Phrase("Vernelito S. Madera"), 20, 40, 0);
+        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("IRETRIEVE 2018"), 300, 60, 0);
+        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_RIGHT, new Phrase("Contact US:"), 550, 80, 0);
+        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_RIGHT, new Phrase("GCIretrieve@gmail.com"), 550, 60, 0);
+        //ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("page " + document.getPageNumber()), 550, 30, 0);
     }
 
 }
