@@ -68,21 +68,19 @@ public class HeaderFooterPageEvent extends PdfPageEventHelper {
 
     public void onStartPage(PdfWriter writer, Document document) {
         try {
+            if (document.getPageNumber() <= 1) {
+                // step 4
+                Phrase p = new Phrase("");
+                p.add(new Chunk(Image.getInstance(readBytesFromFile()), 0, 0, true));
+                ColumnText ct = new ColumnText(writer.getDirectContent());
+                ct.setSimpleColumn(new Rectangle(50, 800, 200, 700));
 
-        // step 4
- 
-        Phrase p = new Phrase("");
-        
-        //p.add("Or, to say it in a more colorful way: quick brown ");
-        p.add(new Chunk(Image.getInstance(readBytesFromFile()), 0, 0, true));
-        p.add(sTitle);
-        ColumnText ct = new ColumnText(writer.getDirectContent());
-        //ct.setSimpleColumn(new Rectangle(50, 600, 400, 800));
-        ct.setSimpleColumn(new Rectangle(10, 10, 100, 800));
-        ct.addText(p);
-        ct.go();
-            
-       // ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("IRetrieve Application - " + sTitle), 300, 800, 0);
+                ct.addText(p);
+                ct.go();
+
+                ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase(sTitle), 300, 700, 0);
+            }
+
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

@@ -37,7 +37,7 @@ public class GeneratePdfReport {
             table.setWidthPercentage(95);
             table.setWidths(new int[]{2, 8, 6, 6, 6, 3});
             table.setPaddingTop(10);
-            table.setSpacingBefore(20f);
+            table.setSpacingBefore(120f);
 
             Font headFont = FontFactory.getFont(FontFactory.COURIER);
 
@@ -135,7 +135,7 @@ public class GeneratePdfReport {
             table.setWidthPercentage(95);
             table.setWidths(new int[]{2, 3, 3, 6, 5, 6, 5});
             table.setPaddingTop(10);
-            table.setSpacingBefore(20f);
+            table.setSpacingBefore(120f);
 
             Font headFont = FontFactory.getFont(FontFactory.COURIER);
 
@@ -242,7 +242,8 @@ public class GeneratePdfReport {
             table.setWidthPercentage(95);
             table.setWidths(new int[]{2, 3, 3, 6, 4, 4, 6, 4, 4});
             table.setPaddingTop(10);
-            table.setSpacingBefore(20f);
+            table.setSpacingBefore(120f);
+            
 
             Font headFont = FontFactory.getFont(FontFactory.COURIER);
 
@@ -375,7 +376,7 @@ public class GeneratePdfReport {
             table.setWidthPercentage(95);
             table.setWidths(new int[]{2, 8, 8, 5});
             table.setPaddingTop(10);
-            table.setSpacingBefore(20f);
+            table.setSpacingBefore(120f);
 
             Font headFont = FontFactory.getFont(FontFactory.COURIER);
 
